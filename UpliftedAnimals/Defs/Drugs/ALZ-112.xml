@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<HediffDef>
+		<defName>RegrowingBodypart</defName>
+		<hediffClass>LHM.Hediff_RegrowingBodyPart</hediffClass>
+		<label>Regrowing</label>
+		<description>Try to not loose it again next time</description>
+
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<comps>
+			<li Class="HediffCompProperties_GetsPermanent">
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<hungerRateFactor>1</hungerRateFactor>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ThingDef ParentName="DrugPillBase">
+		<defName>ALZOneOneTwo</defName>
+		<label>ALZ-112</label>
+		<description>A neurogenerative mRNA drug that either greatly increases intelligence and strength or kills any being exposed. 90% fatal in untested animals.</description>
+		<descriptionHyperlinks>
+			<HediffDef>ALZ112Exposure</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>Things/Item/Drugs</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>700</MarketValue>
+			<Mass>0.01</Mass>
+		</statBases>
+		<techLevel>Ultra</techLevel>
+		<minRewardCount>1</minRewardCount>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>ALZ112Exposure</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>false</doToGeneratedPawnIfAddicted>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>ALZ-112</chemical>
+				<addictiveness>1.00</addictiveness>
+				<needLevelOffset>0.9</needLevelOffset>
+				<listOrder>1011</listOrder>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+		<thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+	</ThingDef>
+
+	<ChemicalDef>
+		<defName>ALZ-112</defName>
+		<label>ALZ-112</label>
+		<addictionHediff>ALZ112Exposure</addictionHediff>
+		<canBinge>false</canBinge>
+	</ChemicalDef>
+
+	<HediffDef>
+		<defName>ALZ112Exposure</defName>
+		<label>ALZ-112 Exposure</label>
+		<description>This being has been exposed to the neurogenerative mRNA drug ALZ-112. They will exhibit increased mental intelligence and strength, if they survive.</description>
+		<hediffClass>BetterRimworlds.UpliftedAnimals.Hediff_ALZ112</hediffClass>
+		<!--<causesNeed>Chemical_Luciferium</causesNeed>-->
+		<everCurableByItem>true</everCurableByItem>
+		<maxSeverity>1.0</maxSeverity>
+		<!--<lethalSeverity>1</lethalSeverity>-->
+		<tendable>false</tendable>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<comps>
+			<li Class="HediffCompProperties_TendDuration">
+				<baseTendDurationHours>12</baseTendDurationHours>
+				<severityPerDayTended>-0.53</severityPerDayTended>
+			</li>
+			<li Class="HediffCompProperties_Immunizable">
+				<severityPerDayNotImmune>0.44</severityPerDayNotImmune>
+				<immunityPerDaySick>0.5441</immunityPerDaySick>
+				<severityPerDayImmune>-0.70</severityPerDayImmune>
+				<immunityPerDayNotSick>-0.40</immunityPerDayNotSick>
+			</li>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+			</li>
+			<li Class="HediffCompProperties_ALZ112">
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>bioactive</label>
+				<painOffset>-0.10</painOffset>
+				<lifeThreatening>true</lifeThreatening>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.50</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-0.90</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.85</offset>
+					</li>
+				</capMods>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Berserk</mentalState>
+						<mtbDays>0.2</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+	<HediffDef>
+		<defName>ALZ112Uplifted</defName>
+		<label>ALZ-112 Uplifted</label>
+		<description>This being has been uplifted by the neurogenerative mRNA drug ALZ-112. They exhibit increased mental intelligence and strength.</description>
+		<!--<hediffClass>Hediff_Addiction</hediffClass>-->
+		<!--<causesNeed>Chemical_Luciferium</causesNeed>-->
+		<everCurableByItem>false</everCurableByItem>
+		<maxSeverity>1.0</maxSeverity>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_ALZ112Heal">
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>bioactive</label>
+				<painOffset>-0.10</painOffset>
+				<lifeThreatening>false</lifeThreatening>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.50</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.25</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.15</offset>
+					</li>
+					<li>
+						<capacity>Hearing</capacity>
+						<offset>0.25</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>1.0</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+</Defs>

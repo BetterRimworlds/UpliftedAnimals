@@ -70,9 +70,6 @@
           <li>(2.5, 0)</li>
         </points>
       </litterSizeCurve>
-<!--      <thinkTreeMain>Humanlike</thinkTreeMain>-->
-<!--      <thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>-->
-<!--      <intelligence>Humanlike</intelligence>-->
       <lifeExpectancy>35</lifeExpectancy>
       <lifeStageAges>
         <li>
@@ -104,7 +101,7 @@
   <PawnKindDef ParentName="AnimalKindBase">
     <defName>Uplifted_Raccoon</defName>
     <label>Uplifted Raccoon</label>
-    <race>Uplifted_Raccoon</race>
+    <race>Uplifted Raccoon</race>
     <combatPower>50</combatPower>
     <ecoSystemWeight>0.30</ecoSystemWeight>
     <lifeStages>

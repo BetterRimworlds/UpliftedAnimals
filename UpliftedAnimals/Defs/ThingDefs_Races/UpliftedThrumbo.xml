@@ -72,7 +72,6 @@
       <baseHealthScale>8.0</baseHealthScale>
       <foodType>VegetarianRoughAnimal, DendrovoreAnimal</foodType>
       <leatherDef>Leather_Thrumbo</leatherDef>
-      <trainability>Advanced</trainability>
       <gestationPeriodDays>60</gestationPeriodDays>
       <manhunterOnDamageChance>1.00</manhunterOnDamageChance>
       <petness>1</petness>
@@ -112,7 +111,7 @@
   <PawnKindDef ParentName="AnimalKindBase">
     <defName>Uplifted_Thrumbo</defName>
     <label>uplifted thrumbo</label>
-    <race>Uplifted Thrumbo</race>
+    <race>Uplifted_Thrumbo</race>
     <combatPower>500</combatPower>
     <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>1</ecoSystemWeight>

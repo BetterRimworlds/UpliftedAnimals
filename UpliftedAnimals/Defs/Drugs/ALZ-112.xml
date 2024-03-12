@@ -127,19 +127,16 @@
 		<defName>ALZ112Uplifted</defName>
 		<label>ALZ-112 Uplifted</label>
 		<description>This being has been uplifted by the neurogenerative mRNA drug ALZ-112. They exhibit increased mental intelligence and strength.</description>
-		<!--<hediffClass>Hediff_Addiction</hediffClass>-->
+		<hediffClass>BetterRimworlds.UpliftedAnimals.Hediff_ALZ112Uplifted</hediffClass>
 		<!--<causesNeed>Chemical_Luciferium</causesNeed>-->
 		<everCurableByItem>false</everCurableByItem>
 		<maxSeverity>1.0</maxSeverity>
 		<scenarioCanAdd>false</scenarioCanAdd>
 		<isBad>false</isBad>
 		<comps>
-			<li Class="HediffCompProperties_ALZ112Heal">
-			</li>
 		</comps>
 		<stages>
 			<li>
-				<label>bioactive</label>
 				<painOffset>-0.10</painOffset>
 				<lifeThreatening>false</lifeThreatening>
 				<capMods>

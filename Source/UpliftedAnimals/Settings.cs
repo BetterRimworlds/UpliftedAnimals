@@ -37,13 +37,21 @@ namespace BetterRimworlds.UpliftedAnimals
 
             options.Gap();
 
-            options.Label("Minutes between Uplift attempts: " + (int)MinutesBetweenUpliftAttempts);
-            hungerRateThreshold = options.Slider(minutesBetweenUpliftAttempts, 5f, 600f);
+            string minutesBetweenUpliftAttemptsBuffer = minutesBetweenUpliftAttempts.ToString();
+            options.TextFieldNumericLabeled(
+                "Minutes between Uplift attempts (Default: 90): ",
+                ref minutesBetweenUpliftAttempts,
+                ref minutesBetweenUpliftAttemptsBuffer,
+                10, 24 * 60
+            );
             
             options.Gap();
 
-            options.Label("Hunger rate threshold: " + (int)HungerRateThreshold);
-            hungerRateThreshold = options.Slider(hungerRateThreshold, 150f, 500f);
+            string hungerRateThresholdBuffer = hungerRateThreshold.ToString();
+
+            // options.TextFieldNumericLabeled("Increased Hunger Rate: ", ref hungerRateThreshold, ref hungerRateThresholdBuffer, 0, 100);
+            //
+            // options.Gap();
 
             options.End();
         }

@@ -18,6 +18,20 @@ Full name, a Skill Set, and the ability to be trained to Attack and Haul, and if
 See the article [**Science or Science Fiction? Uplifting Animals**](https://www.yalescientific.org/2015/05/science-or-science-fiction-uplifting-animals/)
 for more.
 
+## Timing
+
+**NOTE: Uplifting a pawn takes quite a long time, as the mRNA virus has to rewrite the DNA and then rebuild every cell
+of the creature. It will probably take more than 200 Uplifting attempts per exposure.**
+
+During this time, the creature will be unable to fend for itself and will be in something similar to a complete
+catatonic breakdown, but with a greatly-increased (5x) appetite.
+
+Each uplifting attempt will occur every 90 in-game minutes (16 attempts every 24 hours).
+
+215 / 16 = 12.5 days, average, though sometimes it can take 30 or 40 days. Rarely 7 days or less.
+
+You can see the Uplift Attempt number inside the Health tab.
+
 ## Compatible Animals
 
 As per the dictates of The High Evolutionary, HopeSeekr, ALZ-112 has been perfected for the following animals:
@@ -75,6 +89,17 @@ enhanced attributes:
 6. 150% global work speed.
 7. Enhanced Immune System (equivalent of continual Penoxycyline).
 8. Lifespan is dramatically extended to 250 years.
+
+## Warning
+
+You **MUST** immediately save and reload the game after each successful Uplifting.
+
+This mod does really strange things that RimWorld wasn't exactly made to handle. Especially when
+pushing animals up to Full Sentience (members of the Colony), we need the SaveGame sanity fixers
+to come in and tweak things for everything to work right.
+
+Otherwise, the main symptom of Uplifting Psychosis is that the Pawn will just stay in the same place,
+never sleep, never eat, and be unrescuable and unfeedable and eventually die.
 
 ## Change Log
 

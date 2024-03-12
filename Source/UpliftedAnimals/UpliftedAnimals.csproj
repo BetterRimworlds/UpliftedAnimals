@@ -118,11 +118,11 @@
       <FilesSource>$(ProjectDir)..\..\UpliftedAnimals</FilesSource>
       <FilesDestination>$(OutputPath)..</FilesDestination>
     </PropertyGroup>
-<!--    <Exec Command="cp -rvf $(FilesSource)/* '$(FilesDestination)/../'" />-->
-<!--    <Exec Command="cp '$(FilesSource)/../README.md' '$(FilesDestination)/../'" />-->
-<!--    <Exec Command="mkdir -p '$(MainPath)'" />-->
-<!--    <Exec Command="cp -vf $(OutputPath)* '$(MainPath)/'" />-->
-<!--    <Exec Command="unix2dos '$(FilesDestination)/../README.md'" />-->
+    <Exec Command="cp -rvf $(FilesSource)/* '$(FilesDestination)/../'" />
+    <Exec Command="cp '$(FilesSource)/../README.md' '$(FilesDestination)/../'" />
+    <Exec Command="mkdir -p '$(MainPath)'" />
+    <Exec Command="cp -vf $(OutputPath)* '$(MainPath)/'" />
+    <Exec Command="unix2dos '$(FilesDestination)/../README.md'" />
     <!--
     <Error Condition=" '$(FilesDestination)' == '' " Text="Lib not delivered. To disable this message, remove the 'Target' tag from the project file" />
     <Exec Command="RD /S /Q &quot;$(FilesDestination)&quot;" />

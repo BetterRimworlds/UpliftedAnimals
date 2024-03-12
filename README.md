@@ -1,19 +1,84 @@
-# Rimworld Dematerializer
+# Rimworld Uplifted Animals
 
-![DeMaterializer](https://raw.githubusercontent.com/BetterRimworlds/Dematerializer/trunk/Dematerializer/About/Preview.png)
+![ALZ-112](https://raw.githubusercontent.com/BetterRimworlds/UpliftedAnimals/trunk/assets/ALZ-112.medium.jpg)
 
-The Dematerializer building allows you to teleport materials and pawns on the current map directly into the 
-Dematerializer buffer, where the items and pawns will remain in suspended animation indefinitely, as long
-as there is power in the subspace capacitors.
+This mod adds a new drug, ALZ-112: A neurogenerative mRNA drug that either greatly increases intelligence and strength 
+or kills any being exposed. It is usually 90% fatal in untested animals and humans.
 
-Every 1 kg stored in the buffer requires 2 kW of energy to maintain. On power loss, the least massive items
-will be lost to subspace until power is restored.
+![Uplifted Raccoon](https://raw.githubusercontent.com/BetterRimworlds/UpliftedAnimals/trunk/Dematerializer/About/Preview.png)
 
-When solar storms occur, the Dematerializer is fully powered by the solar wind.
+For animals (and possibly humans) that it does succeed on, they are Uplifted to sentience (self-awareness) and massively
+increased sentience and slightly increased speed and strength.
+
+![ALZ-112](https://raw.githubusercontent.com/BetterRimworlds/UpliftedAnimals/trunk/assets/Uplifted_Raccoon_training.png)
+
+If they survive, any animal exposed to ALZ-112 will become a more integral part of your colony, complete with Backstory,
+Full name, a Skill Set, and the ability to be trained to Attack and Haul, and if they are big enough, Rescue.
+
+See the article [**Science or Science Fiction? Uplifting Animals**](https://www.yalescientific.org/2015/05/science-or-science-fiction-uplifting-animals/)
+for more.
+
+## Compatible Animals
+
+As per the dictates of The High Evolutionary, HopeSeekr, ALZ-112 has been perfected for the following animals:
+
+* Raccoons
+* Thrumbos
+
+For compatible animals, the chance of death is greatly diminished to just about 1 out of 81 odds.
+
+Each animal will receive the following enhancements:
+
+* Full name.
+* Full backstory.
+* Ability to Haul (if big enough).
+* Ability to Rescue (if big enough).
+* 150% Consciousness
+* 115% Moving speed
+* 150% Manipulation
+* 125% Sight
+* 125% Hearing
+* 200% Metabolism (faster healing + immunity)
+* High likelihood of Full Uplifting (e.g., become a non-Human Colonist in your colony).
+* Lifespan is dramatically extended.
+
+![Uplifted Raccoon Health tab](https://raw.githubusercontent.com/BetterRimworlds/UpliftedAnimals/trunk/assets/Uplifted_Raccoon_health.png)
+
+## Incompatible Animals
+
+**[NOT YET IMPLEMENTED!]**
+
+For incompatible animals and Humans, the chance of death is randomly decided, anywhere from 100% instant death
+to 6.5% (1 out of 15), with an average distribution of 40% Lethality.
+
+Each animal will receive the following enhancements:
+
+* 125% Consciousness.
+* Ability to Haul (if big enough).
+* Ability to Rescue (if big enough).
+* Very, very slim chance of Full Uplifting (e.g., become a Colonist in your colony).
+
+You can see the Lethality Odds of any exposed creature directly in the Health tab.
+
+## Humans
+
+**[NOT YET IMPLEMENTED!]**
+
+Humans are not likely to survive exposure, though it is possible. Any human that survives will have the following 
+enhanced attributes:
+
+1. Cured of Luciferium Addiction.
+2. Cured of all brain ailments (Alzheimer's, Dementia, Trauma Savant, and cataracts).
+3. 150% vision (stacks with bionics).
+4. 150% hearing (stacks with bionics).
+5. 300% consciousness (stacks with other attributes).
+6. 150% global work speed.
+7. Enhanced Immune System (equivalent of continual Penoxycyline).
+8. Lifespan is dramatically extended to 250 years.
 
 ## Change Log
 
-**v1.0.0: 2024-03-09**
+**v1.0.0: 2024-03-11**
 * Initial Release
 
 ## Better Rimworlds Stargate Mods

@@ -60,14 +60,12 @@ Each animal will receive the following enhancements:
 
 ## Incompatible Animals
 
-**[NOT YET IMPLEMENTED!]**
-
 For incompatible animals and Humans, the chance of death is randomly decided, anywhere from 100% instant death
 to 6.5% (1 out of 15), with an average distribution of 40% Lethality.
 
 Each animal will receive the following enhancements:
 
-* 125% Consciousness.
+* 150% Consciousness.
 * Ability to Haul (if big enough).
 * Ability to Rescue (if big enough).
 * Very, very slim chance of Full Uplifting (e.g., become a Colonist in your colony).
@@ -76,7 +74,7 @@ You can see the Lethality Odds of any exposed creature directly in the Health ta
 
 ## Humans
 
-**[NOT YET IMPLEMENTED!]**
+**[NOT FULLY IMPLEMENTED!]**
 
 Humans are not likely to survive exposure, though it is possible. Any human that survives will have the following 
 enhanced attributes:
@@ -105,6 +103,12 @@ never sleep, never eat, and be unrescuable and unfeedable and eventually die.
 
 **v1.0.0: 2024-03-11**
 * Initial Release
+
+## RoadMap
+
+* Fully Uplift Humans (see [#3](https://github.com/BetterRimworlds/UpliftedAnimals/issues/3)).
+* Fully Uplift Raccons (see [#4](https://github.com/BetterRimworlds/UpliftedAnimals/issues/4)).
+* Cure Uplifted Psychosis (see [$2](https://github.com/BetterRimworlds/UpliftedAnimals/issues/2)).
 
 ## Better Rimworlds Stargate Mods
 

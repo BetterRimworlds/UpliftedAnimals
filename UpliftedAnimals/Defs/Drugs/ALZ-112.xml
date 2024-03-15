@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-	<HediffDef>
-		<defName>RegrowingBodypart</defName>
-		<hediffClass>LHM.Hediff_RegrowingBodyPart</hediffClass>
-		<label>Regrowing</label>
-		<description>Try to not loose it again next time</description>
-
-		<scenarioCanAdd>true</scenarioCanAdd>
-		<comps>
-			<li Class="HediffCompProperties_GetsPermanent">
-			</li>
-		</comps>
-		<stages>
-			<li>
-				<hungerRateFactor>1</hungerRateFactor>
-			</li>
-		</stages>
-	</HediffDef>
-
 	<ThingDef ParentName="DrugPillBase">
-		<defName>ALZOneOneTwo</defName>
+		<defName>ALZ-112_Drug</defName>
 		<label>ALZ-112</label>
 		<description>A neurogenerative mRNA drug that either greatly increases intelligence and strength or kills any being exposed. 90% fatal in untested animals.</description>
 		<descriptionHyperlinks>
@@ -79,21 +61,11 @@
 		<tendable>false</tendable>
 		<scenarioCanAdd>false</scenarioCanAdd>
 		<comps>
-			<li Class="HediffCompProperties_TendDuration">
-				<baseTendDurationHours>12</baseTendDurationHours>
-				<severityPerDayTended>-0.53</severityPerDayTended>
-			</li>
-			<li Class="HediffCompProperties_Immunizable">
-				<severityPerDayNotImmune>0.44</severityPerDayNotImmune>
-				<immunityPerDaySick>0.5441</immunityPerDaySick>
-				<severityPerDayImmune>-0.70</severityPerDayImmune>
-				<immunityPerDayNotSick>-0.40</immunityPerDayNotSick>
-			</li>
 			<li Class="HediffCompProperties_Discoverable">
 				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
 			</li>
-			<li Class="HediffCompProperties_ALZ112">
-			</li>
+<!--			<li Class="HediffCompProperties_ALZ112">-->
+<!--			</li>-->
 		</comps>
 		<stages>
 			<li>

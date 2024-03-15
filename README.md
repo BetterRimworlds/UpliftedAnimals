@@ -101,6 +101,9 @@ never sleep, never eat, and be unrescuable and unfeedable and eventually die.
 
 ## Change Log
 
+**v1.1.0: 2024-03-14**
+* **[2024-03-14 23:17:30 CDT]** Upgraded to Rimworld v1.5.
+
 **v1.0.0: 2024-03-11**
 * Initial Release
 
@@ -121,10 +124,6 @@ never sleep, never eat, and be unrescuable and unfeedable and eventually die.
 
 1. [**WakeUp Implant**](https://github.com/BetterRimworlds/WakeUpImplant) — Installs a brain implant that gives the effects of a permanent wakeup high.
 2. [**Savegame Shrinker**]() — Cleans up unnecessary data from long-running Savegames.
-
-## Contributors
-
-This mod is forked off of the incredible [**Stargate mod**](https://github.com/BetterRimworlds/Stargate).
 
 # Contributors
 

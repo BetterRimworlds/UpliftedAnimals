@@ -20,7 +20,7 @@ using Verse.AI;
 
 namespace BetterRimworlds.UpliftedAnimals
 {
-    public class Hediff_ALZ112 : Hediff
+    public class Hediff_ALZ112 : HediffWithComps
     {
         public int ticksUntilNextChance;
         public int totalTicks = 0;
@@ -36,14 +36,17 @@ namespace BetterRimworlds.UpliftedAnimals
 
         // private float healAmount => base.Part.def.GetMaxHealth(pawn) * Rand.Gaussian(meanHeal, healDeviation);
 
+        // HediffComp_TendDuration but tendable = false
 
         public override void PostAdd(DamageInfo? dinfo)
         {
+            base.PostAdd(dinfo);
+
             // Severity = Part.def.GetMaxHealth(this.pawn) - 1f;
             Severity = 0.25f;
             this.internalSeverity = 0.25f;
         
-            CurStage.restFallFactorOffset = 1f / 500f;
+            CurStage.restFallFactorOffset = 5f;
 
             var compatibleSpecies = true;
             var baseAnimalDef = DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName);
@@ -60,7 +63,7 @@ namespace BetterRimworlds.UpliftedAnimals
                 this.internalSeverity = 0.0f;
             }
             
-            CurStage.hungerRateFactorOffset = 1f / 500f;
+            CurStage.hungerRateFactorOffset = 5f;
             var random = new System.Random();
 
             this.deathMultiple = compatibleSpecies ? 7 : random.Next(2, 5);
@@ -78,7 +81,11 @@ namespace BetterRimworlds.UpliftedAnimals
             //     To check: 216 / 81 = 2.6667, roughly 0.1234% probability, which is close enough.
             this.severityIncrement = (float)(probability/(216.0f / probability / 216.0f));
 
-            this.CurStage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}";
+            // this.def.stages[0] = new H;
+            // var stage = new HediffStage();
+            // stage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}";
+            // this.def.stages[this.CurStageIndex] = stage;
+
 
         }
 
@@ -247,7 +254,7 @@ namespace BetterRimworlds.UpliftedAnimals
         /** Derived from https://github.com/BetterRimworlds/Cryoregenesis/ **/
         private void healBrainInjuries(Pawn pawn)
         {
-            #if RIMWORLD14
+            #if RIMWORLD14 || RIMWORLD15
             var hediffsOfPawn = new List<Hediff>();
             pawn.health.hediffSet.GetHediffs<Hediff>(ref hediffsOfPawn);
             foreach (Hediff h in hediffsOfPawn.ToList())
@@ -292,6 +299,8 @@ namespace BetterRimworlds.UpliftedAnimals
                 Log.Warning($"[Uplift] Attempt {this.upliftAttempts}: Survived? {dices[0]}, {dices[1]} = {upliftStatus}");
             }
 
+            var stage = new HediffStage();
+
             // If they roll snake eyes, kill them instantly. 1 in 37 chance.
             if (diceRoll == 2)
             {
@@ -301,6 +310,8 @@ namespace BetterRimworlds.UpliftedAnimals
 
                 severityString = (internalSeverity * 100f) + "%";
                 this.CurStage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
+                // stage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
+                // this.def.stages[this.CurStageIndex] = stage;
 
                 if (this.internalSeverity >= 1.0f)
                 {
@@ -328,6 +339,13 @@ namespace BetterRimworlds.UpliftedAnimals
             Log.Warning($"[Uplift] Uplift Attempt {this.upliftAttempts}: : {dices[0]}, {dices[1]}, {dices[2]} = {upliftStatus}");
             severityString = (internalSeverity * 100f) + "%";
             this.CurStage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
+            
+            // stage = new HediffStage();
+            // stage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
+            // this.def.stages[this.CurStageIndex] = stage;
+            
+            Log.Warning("Uplift Hash: " + this.CurStage.GetHashCode());
+
 
             // If 3 sixes are rolled, uplift them. 1 in 216 chance.
             // 216 attempts x 1.5 hours / 24 hours = 13.5 days, on average.

@@ -16,11 +16,11 @@ using Verse;
 namespace BetterRimworlds.UpliftedAnimals
 {
     [DefOf]
-    class BRW_HediffDefOf
+    public class BRW_HediffDefOf
     {
 #pragma warning disable CS0649
-        public static HediffDef RegrowingBodypart;
-        public static HediffDef ALZ112;
+        // public static HediffDef RegrowingBodypart;
+        public static HediffDef ALZ112Exposure;
 #pragma warning restore CS0649
 
         static BRW_HediffDefOf()

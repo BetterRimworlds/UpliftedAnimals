@@ -67,12 +67,13 @@
     <race>
       <body>QuadrupedAnimalWithHoovesAndHorn</body>
       <herdMigrationAllowed>false</herdMigrationAllowed>
-      <baseBodySize>4</baseBodySize>
+      <packAnimal>true</packAnimal>
+      <baseBodySize>25</baseBodySize>
       <baseHungerRate>3.5</baseHungerRate>
       <baseHealthScale>8.0</baseHealthScale>
       <foodType>VegetarianRoughAnimal, DendrovoreAnimal</foodType>
       <leatherDef>Leather_Thrumbo</leatherDef>
-      <gestationPeriodDays>60</gestationPeriodDays>
+      <gestationPeriodDays>120</gestationPeriodDays>
       <manhunterOnDamageChance>1.00</manhunterOnDamageChance>
       <petness>1</petness>
       <wildness>0</wildness>

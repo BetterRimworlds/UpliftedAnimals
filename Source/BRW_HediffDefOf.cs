@@ -18,10 +18,8 @@ namespace BetterRimworlds.UpliftedAnimals
     [DefOf]
     public class BRW_HediffDefOf
     {
-#pragma warning disable CS0649
-        // public static HediffDef RegrowingBodypart;
-        public static HediffDef ALZ112Exposure;
-#pragma warning restore CS0649
+        // Assigned by DefOfHelper after defs load, not by the constructor.
+        public static HediffDef ALZ112Exposure = null!;
 
         static BRW_HediffDefOf()
         {

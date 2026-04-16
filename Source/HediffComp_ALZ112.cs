@@ -16,13 +16,7 @@ namespace BetterRimworlds.UpliftedAnimals
 {
     public class HediffComp_ALZ112 : HediffComp_SeverityPerDay
     {
-        public HediffCompProperties_ALZ112 Props
-        {
-            get
-            {
-                return this.props as HediffCompProperties_ALZ112;
-            }
-        }
+        public HediffCompProperties_ALZ112 Props => (HediffCompProperties_ALZ112)this.props;
         
         public override void CompPostMake()
         {

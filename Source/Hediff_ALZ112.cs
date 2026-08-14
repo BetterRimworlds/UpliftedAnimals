@@ -159,7 +159,11 @@ namespace BetterRimworlds.UpliftedAnimals
             // Add ALZ-112 Uplifted status.
             this.pawn.health.AddHediff(DefDatabase<HediffDef>.GetNamed("ALZ112Uplifted"));
 
-            this.pawn.SetFactionDirect(Faction.OfPlayer);
+            if (this.pawn.health.hediffSet.GetFirstHediffOfDef(
+                    DefDatabase<HediffDef>.GetNamed("ALZ112Uplifted")) is Hediff_ALZ112Uplifted uplifted)
+            {
+                uplifted.AnchorToColony();
+            }
 
             if (compatibleSpecies)
             {

@@ -29,6 +29,12 @@
         <li>Plant_Hops</li>
         <li>Plant_Smokeleaf</li>
         <li>Plant_Psychoid</li>
+        <li>MealSimple</li>
+        <li>MealFine</li>
+        <li>MealLavish</li>
+        <li>MealNutrientPaste</li>
+        <li>MealSurvivalPack</li>
+        <li>Pemmican</li>
       </willNeverEat>
       <leatherDef>Leather_Pig</leatherDef>
       <wildness>0</wildness>

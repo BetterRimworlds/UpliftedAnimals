@@ -33,6 +33,16 @@
         <li>Plant_Smokeleaf</li>
         <li>Plant_Psychoid</li>
         <li>Plant_Tinctoria</li>
+        <li>MealSimple</li>
+        <li>MealFine</li>
+        <li>MealFine_Veg</li>
+        <li>MealFine_Meat</li>
+        <li>MealLavish</li>
+        <li>MealLavish_Veg</li>
+        <li>MealLavish_Meat</li>
+        <li>MealNutrientPaste</li>
+        <li>MealSurvivalPack</li>
+        <li>Pemmican</li>
       </willNeverEat>
       <leatherDef>Leather_Pig</leatherDef>
       <!-- roamMtbDays omitted on purpose: roamers are pen animals and cannot be assigned allowed areas. -->

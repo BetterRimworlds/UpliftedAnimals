@@ -41,6 +41,12 @@ namespace BetterRimworlds.UpliftedAnimals
                 }
 
                 def.race.herdMigrationAllowed = false;
+#if !RIMWORLD12
+                if (!UpliftedNamer.AllowsLivestockAction(def))
+                {
+                    def.race.canReleaseToWild = false;
+                }
+#endif
 #if RIMWORLD16
                 def.race.neverIncludeInQuests = true;
 #endif

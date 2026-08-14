@@ -25,6 +25,17 @@ namespace BetterRimworlds.UpliftedAnimals
             return def?.defName != null && def.defName.StartsWith(Prefix);
         }
 
+        public static bool IsBird(ThingDef def)
+        {
+            return def?.race?.body != null && def.race.body.defName == "Bird";
+        }
+
+        // Selected-pawn Slaughter / Release to wild stay on birds only.
+        public static bool AllowsLivestockAction(ThingDef def)
+        {
+            return !IsUplifted(def) || IsBird(def);
+        }
+
         public static bool NeedsName(Pawn pawn)
         {
             if (pawn == null || pawn.Dead || !IsUplifted(pawn.def))

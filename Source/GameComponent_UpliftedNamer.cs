@@ -29,6 +29,7 @@ namespace BetterRimworlds.UpliftedAnimals
         public override void FinalizeInit()
         {
             UpliftedNamer.NameAllUnnamed();
+            LongEventHandler.ExecuteWhenFinished(Designator_SlaughterUplifted.EnsureReverseDesignator);
         }
 
         public override void GameComponentTick()
@@ -39,6 +40,7 @@ namespace BetterRimworlds.UpliftedAnimals
             }
 
             UpliftedNamer.NameAllUnnamed();
+            Designator_SlaughterUplifted.EnsureReverseDesignator();
         }
     }
 }

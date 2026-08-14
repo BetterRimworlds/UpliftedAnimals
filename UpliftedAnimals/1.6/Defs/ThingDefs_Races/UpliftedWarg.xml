@@ -19,6 +19,8 @@
       <body>QuadrupedAnimalWithPawsAndTail</body>
       <predator>true</predator>
       <petness>1</petness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
       <baseBodySize>1.4</baseBodySize>
       <baseHungerRate>0.40</baseHungerRate>
       <baseHealthScale>1.4</baseHealthScale>
@@ -72,6 +74,7 @@
         <li>(-0.3, 0, 0.03)</li>
       </headPosPerRotation>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalUncommon</li>
       <li>AnimalFighter</li>
@@ -150,6 +153,7 @@
     <label>uplifted warg</label>
     <race>Uplifted_Warg</race>
     <combatPower>160</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.10</ecoSystemWeight>
     <lifeStages>
       <li>

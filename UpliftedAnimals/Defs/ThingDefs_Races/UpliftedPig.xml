@@ -20,6 +20,7 @@
       <leatherDef>Leather_Pig</leatherDef>
       <wildness>0</wildness>
       <petness>1</petness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
       <trainability>Advanced</trainability>
       <meatLabel>pork</meatLabel>
       <gestationPeriodDays>5.661</gestationPeriodDays>
@@ -54,9 +55,9 @@
       <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalCommon</li>
-      <li>AnimalFarm</li>
     </tradeTags>
     <tools>
       <li>
@@ -88,6 +89,7 @@
     <labelFemale>uplifted sow</labelFemale>
     <race>Uplifted_Pig</race>
     <combatPower>45</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.15</ecoSystemWeight>
     <lifeStages>
       <li>

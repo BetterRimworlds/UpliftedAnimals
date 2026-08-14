@@ -59,6 +59,7 @@
       <leatherDef>Leather_Light</leatherDef>
       <petness>1</petness>
       <wildness>0</wildness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
       <trainability>Advanced</trainability>
       <mateMtbHours>8</mateMtbHours>
       <gestationPeriodDays>36</gestationPeriodDays>
@@ -96,6 +97,7 @@
       <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalCommon</li>
     </tradeTags>
@@ -106,6 +108,7 @@
     <label>Uplifted Raccoon</label>
     <race>Uplifted_Raccoon</race>
     <combatPower>50</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.30</ecoSystemWeight>
     <lifeStages>
       <li>

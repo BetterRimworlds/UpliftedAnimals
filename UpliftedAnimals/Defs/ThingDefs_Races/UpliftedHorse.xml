@@ -14,6 +14,7 @@
     <uiIconScale>1.1</uiIconScale>
     <race>
       <herdAnimal>true</herdAnimal>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
       <body>QuadrupedAnimalWithHooves</body>
       <baseBodySize>2.4</baseBodySize>
       <baseHealthScale>1.75</baseHealthScale>
@@ -49,9 +50,9 @@
       <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalCommon</li>
-      <li>AnimalFarm</li>
     </tradeTags>
     <tools>
       <li>
@@ -103,6 +104,7 @@
     <labelFemale>uplifted mare</labelFemale>
     <race>Uplifted_Horse</race>
     <combatPower>100</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.15</ecoSystemWeight>
     <wildGroupSize>1~2</wildGroupSize>
     <alternateGraphicChance>0.8</alternateGraphicChance>

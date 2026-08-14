@@ -17,8 +17,11 @@
       <Wildness>0</Wildness>
       <ToxicEnvironmentResistance>0.9</ToxicEnvironmentResistance>
     </statBases>
+    <tradeability>Sellable</tradeability>
     <race>
       <petness>1</petness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
       <baseHungerRate>0.16</baseHungerRate>
       <trainability>Advanced</trainability>
       <lifeExpectancy>35</lifeExpectancy>
@@ -42,6 +45,7 @@
 
   <PawnKindDef ParentName="AnimalKindBaseFox" Name="AnimalKindBaseUpliftedFox" Abstract="True">
     <combatPower>55</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.05</ecoSystemWeight>
   </PawnKindDef>
 

@@ -18,6 +18,8 @@
     <uiIconScale>1.25</uiIconScale>
     <race>
       <herdAnimal>true</herdAnimal>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
       <body>QuadrupedAnimalWithHooves</body>
       <baseBodySize>1.4</baseBodySize>
       <baseHealthScale>1.45</baseHealthScale>
@@ -59,9 +61,9 @@
         <li>(-0.27, 0, 0.16)</li>
       </headPosPerRotation>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalUncommon</li>
-      <li>AnimalFarm</li>
     </tradeTags>
     <tools>
       <li>
@@ -113,6 +115,7 @@
     <label>uplifted donkey</label>
     <race>Uplifted_Donkey</race>
     <combatPower>80</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>1.1</ecoSystemWeight>
     <lifeStages>
       <li>

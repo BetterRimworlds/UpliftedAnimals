@@ -5,9 +5,11 @@
     <statBases>
       <MarketValue>10000</MarketValue>
     </statBases>
+    <tradeability>Sellable</tradeability>
     <race>
       <petness>1</petness>
       <wildness>0</wildness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
       <baseHungerRate>0.16</baseHungerRate>
       <trainability>Advanced</trainability>
       <lifeExpectancy>35</lifeExpectancy>
@@ -31,6 +33,7 @@
 
   <PawnKindDef ParentName="AnimalKindBaseFox" Name="AnimalKindBaseUpliftedFox" Abstract="True">
     <combatPower>55</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.05</ecoSystemWeight>
   </PawnKindDef>
 

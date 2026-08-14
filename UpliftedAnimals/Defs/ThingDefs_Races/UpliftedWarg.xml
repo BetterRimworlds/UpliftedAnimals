@@ -16,6 +16,7 @@
       <predator>true</predator>
       <petness>1</petness>
       <wildness>0</wildness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
       <baseBodySize>1.4</baseBodySize>
       <baseHungerRate>0.40</baseHungerRate>
       <baseHealthScale>1.4</baseHealthScale>
@@ -59,6 +60,7 @@
       <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalUncommon</li>
       <li>AnimalFighter</li>
@@ -135,6 +137,7 @@
     <label>uplifted warg</label>
     <race>Uplifted_Warg</race>
     <combatPower>160</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.10</ecoSystemWeight>
     <lifeStages>
       <li>

@@ -23,6 +23,8 @@
       <leatherDef>Leather_Pig</leatherDef>
       <!-- roamMtbDays omitted on purpose: roamers are pen animals and cannot be assigned allowed areas. -->
       <petness>1</petness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
       <trainability>Advanced</trainability>
       <specialTrainables>
         <li MayRequire="Ludeon.RimWorld.Odyssey">Forage</li>
@@ -67,9 +69,9 @@
         <li>(-0.11, 0, -0.01)</li>
       </headPosPerRotation>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalCommon</li>
-      <li>AnimalFarm</li>
     </tradeTags>
     <tools>
       <li>
@@ -101,6 +103,7 @@
     <labelFemale>uplifted sow</labelFemale>
     <race>Uplifted_Pig</race>
     <combatPower>45</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.15</ecoSystemWeight>
     <lifeStages>
       <li>

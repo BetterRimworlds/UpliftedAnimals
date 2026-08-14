@@ -58,6 +58,7 @@
       <petness>1</petness>
       <wildness>0</wildness>
       <herdAnimal>true</herdAnimal>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
       <baseBodySize>0.50</baseBodySize>
       <baseHungerRate>0.20</baseHungerRate>
       <baseHealthScale>0.45</baseHealthScale>
@@ -89,6 +90,7 @@
       <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalUncommon</li>
     </tradeTags>
@@ -99,6 +101,7 @@
     <label>uplifted monkey</label>
     <race>Uplifted_Monkey</race>
     <combatPower>45</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
     <ecoSystemWeight>0.10</ecoSystemWeight>
     <wildGroupSize>1~3</wildGroupSize>
     <lifeStages>

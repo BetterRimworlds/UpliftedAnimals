@@ -68,6 +68,7 @@
     <race>
       <body>QuadrupedAnimalWithHoovesAndHorn</body>
       <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
       <packAnimal>true</packAnimal>
       <baseBodySize>25</baseBodySize>
       <baseHungerRate>3.5</baseHungerRate>
@@ -104,6 +105,7 @@
       <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
     </race>
+    <tradeability>Sellable</tradeability>
     <tradeTags>
       <li>AnimalExotic</li>
     </tradeTags>

@@ -20,6 +20,7 @@ namespace BetterRimworlds.UpliftedAnimals
     {
         // Assigned by DefOfHelper after defs load, not by the constructor.
         public static HediffDef ALZ112Exposure = null!;
+        public static HediffDef ALZ112Uplifted = null!;
 
         static BRW_HediffDefOf()
         {

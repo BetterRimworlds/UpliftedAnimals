@@ -10,6 +10,7 @@
  * Most rights are reserved.
  */
 
+#nullable disable
 using RimWorld;
 using Verse;
 
@@ -17,6 +18,10 @@ namespace BetterRimworlds.UpliftedAnimals
 {
     public class Hediff_ALZ112Uplifted : Hediff
     {
+        public Hediff_ALZ112Uplifted()
+        {
+        }
+
         private bool anchored;
 
         public override void PostAdd(DamageInfo? dinfo)

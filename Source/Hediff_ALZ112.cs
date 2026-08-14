@@ -10,6 +10,7 @@
  * Most rights are reserved.
  */
 
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,12 @@ namespace BetterRimworlds.UpliftedAnimals
 {
     public class Hediff_ALZ112 : HediffWithComps
     {
+        // Unity Mono's Activator.CreateInstance requires an explicit public
+        // parameterless ctor. A compiler-generated one is not always found.
+        public Hediff_ALZ112()
+        {
+        }
+
         public int ticksUntilNextChance;
         public int totalTicks = 0;
 
@@ -152,6 +159,14 @@ namespace BetterRimworlds.UpliftedAnimals
             }
 
             this.pawn.def = baseAnimalDef;
+            // Birth clones mother.kindDef. Keep it aligned with the new race once,
+            // at the moment of uplift, so future offspring inherit the uplift.
+            PawnKindDef upliftedKind = DefDatabase<PawnKindDef>.GetNamedSilentFail(
+                baseAnimalDef.defName);
+            if (upliftedKind != null && this.pawn.kindDef != upliftedKind)
+            {
+                this.pawn.ChangeKind(upliftedKind);
+            }
 
             // Cure the brain ailments + ALZ-112 Exposure..
             this.healBrainInjuries(this.pawn);

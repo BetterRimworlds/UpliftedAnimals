@@ -18,7 +18,7 @@ namespace BetterRimworlds.UpliftedAnimals
     {
         public HediffCompProperties_ALZ112()
         {
-            compClass = typeof(HediffComp_ALZ112);
+            this.compClass = typeof(HediffComp_ALZ112);
         }
         
     }

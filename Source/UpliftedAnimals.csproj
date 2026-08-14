@@ -107,15 +107,15 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release v1.6'">
     <Reference Include="Assembly-CSharp">
-      <HintPath>/rimworld/1.6-steam/RimWorldLinux_Data/Managed/Assembly-CSharp.dll</HintPath>
+      <HintPath>/rimworld/1.6/RimWorldLinux_Data/Managed/Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>/rimworld/1.6-steam/RimWorldLinux_Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>/rimworld/1.6/RimWorldLinux_Data/Managed/UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>/rimworld/1.6-steam/RimWorldLinux_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>/rimworld/1.6/RimWorldLinux_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

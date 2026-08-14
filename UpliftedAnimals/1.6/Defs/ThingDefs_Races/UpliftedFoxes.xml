@@ -18,6 +18,9 @@
       <ToxicEnvironmentResistance>0.9</ToxicEnvironmentResistance>
     </statBases>
     <tradeability>Sellable</tradeability>
+    <tradeTags Inherit="False">
+      <li>AnimalExotic</li>
+    </tradeTags>
     <race>
       <petness>1</petness>
       <herdMigrationAllowed>false</herdMigrationAllowed>

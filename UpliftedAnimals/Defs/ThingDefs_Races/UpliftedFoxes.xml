@@ -6,6 +6,9 @@
       <MarketValue>10000</MarketValue>
     </statBases>
     <tradeability>Sellable</tradeability>
+    <tradeTags Inherit="False">
+      <li>AnimalExotic</li>
+    </tradeTags>
     <race>
       <petness>1</petness>
       <wildness>0</wildness>

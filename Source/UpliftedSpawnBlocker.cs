@@ -10,6 +10,7 @@
  * Most rights are reserved.
  */
 
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -51,12 +52,18 @@ namespace BetterRimworlds.UpliftedAnimals
                 }
 #endif
 
-                if (def.tradeTags != null)
+                if (def.tradeTags == null)
                 {
-                    def.tradeTags.RemoveAll(tag => tag == "AnimalFarm");
+                    def.tradeTags = new List<string>();
                 }
 
-                // Player can still sell their own; traders will not stock them.
+                def.tradeTags.RemoveAll(tag => tag == "AnimalFarm");
+                if (!def.tradeTags.Contains("AnimalExotic"))
+                {
+                    def.tradeTags.Add("AnimalExotic");
+                }
+
+                // Player can sell their own; traders will not generate them as stock.
                 if (def.tradeability == Tradeability.All || def.tradeability == Tradeability.Buyable)
                 {
                     def.tradeability = Tradeability.Sellable;

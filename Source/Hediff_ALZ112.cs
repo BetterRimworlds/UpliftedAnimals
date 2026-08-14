@@ -45,12 +45,12 @@ namespace BetterRimworlds.UpliftedAnimals
             // Severity = Part.def.GetMaxHealth(this.pawn) - 1f;
             Severity = 0.25f;
             this.internalSeverity = 0.25f;
-        
+
             CurStage.restFallFactorOffset = 5f;
 
             var compatibleSpecies = true;
             var baseAnimalDef = DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName);
-            
+
             if (baseAnimalDef == null)
             {
                 compatibleSpecies = false;
@@ -62,7 +62,7 @@ namespace BetterRimworlds.UpliftedAnimals
                 Severity = 0.0f;
                 this.internalSeverity = 0.0f;
             }
-            
+
             CurStage.hungerRateFactorOffset = 5f;
             var random = new System.Random();
 
@@ -70,7 +70,7 @@ namespace BetterRimworlds.UpliftedAnimals
 
             double probability = this.deathMultiple == 1 ? 1 : 1.0f / Math.Pow((this.deathMultiple - 1), 2);
             this.lethality = Math.Round(probability * 100f, 2);
-            
+
             // 1 in 216 == Odds of hitting 6, 6, 6 with 3 dice.
             // Example:
             //     Rolling 1, 1 on 2 3-sided dice == 0.111111 probability.
@@ -80,16 +80,34 @@ namespace BetterRimworlds.UpliftedAnimals
             //         0.111111 / 9.000 = 0.012345678 or 1 out of 81 odds.
             //     To check: 216 / 81 = 2.6667, roughly 0.1234% probability, which is close enough.
             this.severityIncrement = (float)(probability/(216.0f / probability / 216.0f));
-
-            // this.def.stages[0] = new H;
-            // var stage = new HediffStage();
-            // stage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}";
-            // this.def.stages[this.CurStageIndex] = stage;
-
-
         }
 
         public override float BleedRate => 0f;
+
+        public override string Label
+        {
+            get
+            {
+                string severityString = $"{this.internalSeverity * 100f:F2}%";
+                int upliftBonus = this.upliftAttempts / 10;
+                int targetRoll = Math.Max(3, 18 - upliftBonus);
+
+                int[] successCounts =
+                {
+                    216, 216, 216, 216, 215, 212, 206, 196,
+                    181, 160, 135, 108, 81, 56, 35, 20, 10, 4, 1
+                };
+
+                float upliftChance = successCounts[targetRoll] / 216f * 100f;
+
+                return $"ALZ-112 Exposure\n" +
+                    $"  • Lethality: {this.lethality}%\n" +
+                    $"  • Uplift Mod #{this.upliftAttempts}\n" +
+                    $"  • Uplift Bonus: +{upliftBonus}\n" +
+                    $"  • Uplift Chance: {upliftChance:F2}%\n" +
+                    $"  • Severity: {severityString}";
+            }
+        }
 
         public override Color LabelColor
         {
@@ -123,10 +141,10 @@ namespace BetterRimworlds.UpliftedAnimals
         {
             ThingDef baseAnimalDef;
             string kindName = this.pawn.def.defName;
-            
+
             var compatibleSpecies = true;
             baseAnimalDef = DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName);
-            
+
             if (baseAnimalDef == null)
             {
                 compatibleSpecies = false;
@@ -137,11 +155,12 @@ namespace BetterRimworlds.UpliftedAnimals
 
             // Cure the brain ailments + ALZ-112 Exposure..
             this.healBrainInjuries(this.pawn);
-            
+
             // Add ALZ-112 Uplifted status.
             this.pawn.health.AddHediff(DefDatabase<HediffDef>.GetNamed("ALZ112Uplifted"));
-            
+
             this.pawn.SetFactionDirect(Faction.OfPlayer);
+
             if (compatibleSpecies)
             {
                 // this.pawn.skills = new Pawn_SkillTracker(this.pawn);
@@ -152,13 +171,14 @@ namespace BetterRimworlds.UpliftedAnimals
 
             NameTriple pawnName;
             string firstName;
-            if (this.pawn.Name.Numerical == false)
+            if (this.pawn.Name != null && this.pawn.Name.Numerical == false)
             {
-                firstName = this.pawn.Name.ToString();
+                firstName = this.pawn.Name.ToStringShort;
             }
             else
             {
-                firstName = PawnBioAndNameGenerator.TryGetRandomUnusedSolidName(this.pawn.gender).First;
+                NameTriple solidName = PawnBioAndNameGenerator.TryGetRandomUnusedSolidName(this.pawn.gender);
+                firstName = solidName != null ? solidName.First : this.pawn.LabelShort;
             }
 
             pawnName = new NameTriple(firstName, firstName, kindName);
@@ -183,7 +203,7 @@ namespace BetterRimworlds.UpliftedAnimals
             // this.pawn.verbTracker = new VerbTracker(this.pawn);
             // this.pawn.drafter = new Pawn_DraftController(this.pawn);
             // this.pawn.jobs = new Pawn_JobTracker(this.pawn);
-            
+
             // pawn.abilities = new Pawn_AbilityTracker(pawn);
             // pawn.apparel = new Pawn_ApparelTracker(pawn);
             // pawn.caller = new Pawn_CallTracker(pawn);
@@ -211,27 +231,30 @@ namespace BetterRimworlds.UpliftedAnimals
             // pawn.story = new Pawn_StoryTracker(pawn);
             // pawn.thinker = new Pawn_Thinker(pawn);
             // pawn.workSettings = new Pawn_WorkSettings(pawn);
-            
+
             // pawn.skills = new Pawn_SkillTracker(pawn);
             // pawn.timetable = new Pawn_TimetableTracker(pawn);
             // pawn.trader = new Pawn_TraderTracker(pawn);
             // pawn.training = new Pawn_TrainingTracker(pawn);
-            
+
             // pawn.verbTracker = new VerbTracker(pawn);
             // pawn.carryTracker = new Pawn_CarryTracker(pawn);
             // pawn.meleeVerbs = new Pawn_MeleeVerbs(pawn);
             // pawn.verbTracker.VerbsNeedReinitOnLoad();
-            
+
             pawn.filth = new Pawn_FilthTracker(pawn);
             // pawn.royalty = new Pawn_RoyaltyTracker(pawn);
-            
+
             //this.pawn.InitializeComps();
 
             float days = this.totalTicks / 2500f / 24f;
             Log.Warning($"SUCCESSFULLY UPLIFTED AFTER {this.totalTicks} ({days} days)!!!");
             Messages.Message($"Successfully uplifted {this.pawn.Name} after {days} days!!", MessageTypeDefOf.PositiveEvent);
-            LetterMaker.MakeLetter("Uplifted Animal", $"{pawnName} has been successfully Uplifted to full sentience after {days} days!",
-                LetterDefOf.PositiveEvent);
+            Find.LetterStack.ReceiveLetter(
+                "Uplifted Animal",
+                $"{pawnName} has been successfully Uplifted to full sentience after {days} days!",
+                LetterDefOf.PositiveEvent,
+                this.pawn);
 
             //this.successfulUplift = true;
 
@@ -239,14 +262,14 @@ namespace BetterRimworlds.UpliftedAnimals
                 this.pawn.Name + $" has been Uplifted after {days} days!.\n\n" + "You must immediately save and reopen the game.",
                 new Action(delegate
                 {
-                    
+
                 }),
                 destructive: true,
                 title: "Uplifted Animal"
             );
             Find.WindowStack.Add(alert);
 
-            
+
 
             return true;
         }
@@ -254,12 +277,12 @@ namespace BetterRimworlds.UpliftedAnimals
         /** Derived from https://github.com/BetterRimworlds/Cryoregenesis/ **/
         private void healBrainInjuries(Pawn pawn)
         {
-            #if RIMWORLD14 || RIMWORLD15
+            #if RIMWORLD12 || RIMWORLD13
+            foreach (Hediff h in pawn.health.hediffSet.GetHediffs<Hediff>().ToList())
+            #else
             var hediffsOfPawn = new List<Hediff>();
             pawn.health.hediffSet.GetHediffs<Hediff>(ref hediffsOfPawn);
             foreach (Hediff h in hediffsOfPawn.ToList())
-            #else
-            foreach (Hediff h in pawn.health.hediffSet.GetHediffs<Hediff>().ToList())
             #endif
             {
 
@@ -275,8 +298,6 @@ namespace BetterRimworlds.UpliftedAnimals
 
         public bool TryUplift()
         {
-            var random = new System.Random();
-            // int diceRoll = random.Next(1, 7) + random.Next(1, 7);
             int diceRoll;
 
             ++this.upliftAttempts;
@@ -286,77 +307,81 @@ namespace BetterRimworlds.UpliftedAnimals
             // Incompatible species: From 100% certain to 6.26%.
             var dices = new List<int>
             {
-                random.Next(1, deathMultiple),
-                random.Next(1, deathMultiple)
+                Rand.RangeInclusive(1, deathMultiple - 1),
+                Rand.RangeInclusive(1, deathMultiple - 1)
             };
-            // diceRoll = random.Next(1, deathMultiple) + random.Next(1, deathMultiple)};
+
             diceRoll = dices[0] + dices[1];
 
-            string severityString;
-            string upliftStatus = (diceRoll == 2 ? "Dying" : "Alive") + $" (Severity: {this.internalSeverity})";
+            string upliftStatus =
+                (diceRoll == 2 ? "Dying" : "Alive") +
+                $" (Severity: {this.internalSeverity})";
+
             if (upliftStatus.Contains("Dying"))
             {
-                Log.Warning($"[Uplift] Attempt {this.upliftAttempts}: Survived? {dices[0]}, {dices[1]} = {upliftStatus}");
+                Log.Warning(
+                    $"[Uplift] Attempt {this.upliftAttempts}: " +
+                    $"Survived? {dices[0]}, {dices[1]} = {upliftStatus}"
+                );
             }
 
-            var stage = new HediffStage();
-
-            // If they roll snake eyes, kill them instantly. 1 in 37 chance.
+            // If they roll snake eyes, increase severity and possibly kill them.
             if (diceRoll == 2)
             {
-                // this.Severity += this.severityIncrement;
-                this.internalSeverity = Math.Min(this.severityIncrement + this.internalSeverity, 1.0f);
-                Log.Warning($"[Uplift] The severity of the ALZ-112 Exposure in {this.pawn.Name} has reached {this.internalSeverity}.");
+                this.internalSeverity = Math.Min(
+                    this.severityIncrement + this.internalSeverity,
+                    1.0f
+                );
 
-                severityString = (internalSeverity * 100f) + "%";
-                this.CurStage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
-                // stage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
-                // this.def.stages[this.CurStageIndex] = stage;
+                Log.Warning(
+                    $"[Uplift] The severity of the ALZ-112 Exposure in " +
+                    $"{this.pawn.Name} has reached {this.internalSeverity}."
+                );
 
                 if (this.internalSeverity >= 1.0f)
                 {
-                    Messages.Message(this.pawn.Name.ToStringFull + " died from exposure to drug ALZ-112.",
-                        MessageTypeDefOf.NegativeEvent);
+                    Messages.Message(
+                        this.pawn.LabelShortCap +
+                            " died from exposure to drug ALZ-112.",
+                        MessageTypeDefOf.NegativeEvent
+                    );
                     this.pawn.Kill(null, this);
                 }
 
                 return false;
             }
-            
+
             // If they are incompatible species, reroll the previous dice for proper odds.
             if (this.deathMultiple < 7)
             {
-                dices[0] = random.Next(1, 7);
-                dices[1] = random.Next(1, 7);
+                dices[0] = Rand.RangeInclusive(1, 6);
+                dices[1] = Rand.RangeInclusive(1, 6);
             }
 
             // Roll the uplifting dice.
-            dices.Add(random.Next(1, 7));
-            diceRoll = dices.Sum();
+            dices.Add(Rand.RangeInclusive(1, 6));
 
-            upliftStatus = diceRoll == 18 ? "Uplifted" : "Unchanged";
+            int rawRoll = dices.Sum();
+            int upliftBonus = this.upliftAttempts / 10;
+            int adjustedRoll = rawRoll + upliftBonus;
 
-            Log.Warning($"[Uplift] Uplift Attempt {this.upliftAttempts}: : {dices[0]}, {dices[1]}, {dices[2]} = {upliftStatus}");
-            severityString = (internalSeverity * 100f) + "%";
-            this.CurStage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
-            
-            // stage = new HediffStage();
-            // stage.label = $"Lethality: {this.lethality}%\nUplift Mod #{this.upliftAttempts}\nSeverity: {severityString}";
-            // this.def.stages[this.CurStageIndex] = stage;
-            
-            Log.Warning("Uplift Hash: " + this.CurStage.GetHashCode());
+            upliftStatus = adjustedRoll >= 18 ? "Uplifted" : "Unchanged";
 
+            Log.Warning(
+                $"[Uplift] Uplift Attempt {this.upliftAttempts}: " +
+                $"{dices[0]}, {dices[1]}, {dices[2]} + {upliftBonus} = " +
+                $"{adjustedRoll} (raw {rawRoll}) = {upliftStatus}"
+            );
 
-            // If 3 sixes are rolled, uplift them. 1 in 216 chance.
-            // 216 attempts x 1.5 hours / 24 hours = 13.5 days, on average.
-            if (diceRoll == 18)
+            // Success chance improves with number of attempts, with no cap.
+            if (adjustedRoll >= 18)
             {
                 return this.DoUplifting();
             }
 
             return false;
         }
-        
+
         public override void ExposeData()
         {
             base.ExposeData();

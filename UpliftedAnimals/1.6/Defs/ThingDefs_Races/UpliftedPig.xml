@@ -20,6 +20,20 @@
       <baseHealthScale>0.7</baseHealthScale>
       <baseHungerRate>0.80</baseHungerRate>
       <foodType>OmnivoreRoughAnimal</foodType>
+      <willNeverEat>
+        <li>Plant_Rice</li>
+        <li>Plant_Potato</li>
+        <li>Plant_Corn</li>
+        <li>Plant_Strawberry</li>
+        <li>Plant_Haygrass</li>
+        <li>Plant_Cotton</li>
+        <li>Plant_Devilstrand</li>
+        <li>Plant_Healroot</li>
+        <li>Plant_Hops</li>
+        <li>Plant_Smokeleaf</li>
+        <li>Plant_Psychoid</li>
+        <li>Plant_Tinctoria</li>
+      </willNeverEat>
       <leatherDef>Leather_Pig</leatherDef>
       <!-- roamMtbDays omitted on purpose: roamers are pen animals and cannot be assigned allowed areas. -->
       <petness>1</petness>

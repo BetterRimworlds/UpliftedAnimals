@@ -56,6 +56,19 @@
       <baseHealthScale>0.4</baseHealthScale>
       <baseHungerRate>0.32</baseHungerRate>
       <foodType>OmnivoreRoughAnimal, OmnivoreAnimal</foodType>
+      <willNeverEat>
+        <li>Plant_Rice</li>
+        <li>Plant_Potato</li>
+        <li>Plant_Corn</li>
+        <li>Plant_Strawberry</li>
+        <li>Plant_Haygrass</li>
+        <li>Plant_Cotton</li>
+        <li>Plant_Devilstrand</li>
+        <li>Plant_Healroot</li>
+        <li>Plant_Hops</li>
+        <li>Plant_Smokeleaf</li>
+        <li>Plant_Psychoid</li>
+      </willNeverEat>
       <leatherDef>Leather_Light</leatherDef>
       <petness>1</petness>
       <wildness>0</wildness>

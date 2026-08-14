@@ -81,6 +81,18 @@
       <trainability>Advanced</trainability>
       <lifeExpectancy>300</lifeExpectancy>
       <willNeverEat>
+        <li>Plant_Rice</li>
+        <li>Plant_Potato</li>
+        <li>Plant_Corn</li>
+        <li>Plant_Strawberry</li>
+        <li>Plant_Haygrass</li>
+        <li>Plant_Cotton</li>
+        <li>Plant_Devilstrand</li>
+        <li>Plant_Healroot</li>
+        <li>Plant_Hops</li>
+        <li>Plant_Smokeleaf</li>
+        <li>Plant_Psychoid</li>
+        <li>Plant_Tinctoria</li>
         <li MayRequire="Ludeon.RimWorld.Royalty">Plant_TreeAnima</li>
       </willNeverEat>
       <lifeStageAges>

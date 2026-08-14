@@ -25,7 +25,7 @@ namespace BetterRimworlds.UpliftedAnimals
         {
             foreach (PawnKindDef kind in DefDatabase<PawnKindDef>.AllDefsListForReading)
             {
-                if (!IsUplifted(kind))
+                if (!UpliftedNamer.IsUplifted(kind))
                 {
                     continue;
                 }
@@ -35,7 +35,7 @@ namespace BetterRimworlds.UpliftedAnimals
 
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
             {
-                if (def.race == null || !IsUplifted(def))
+                if (def.race == null || !UpliftedNamer.IsUplifted(def))
                 {
                     continue;
                 }
@@ -68,12 +68,17 @@ namespace BetterRimworlds.UpliftedAnimals
                 {
                     def.tradeability = Tradeability.Sellable;
                 }
-            }
-        }
 
-        private static bool IsUplifted(Def def)
-        {
-            return def?.defName != null && def.defName.StartsWith("Uplifted_");
+                if (def.comps == null)
+                {
+                    def.comps = new List<CompProperties>();
+                }
+
+                if (!def.comps.Exists(c => c is CompProperties_UpliftedNamer))
+                {
+                    def.comps.Add(new CompProperties_UpliftedNamer());
+                }
+            }
         }
     }
 }

@@ -188,33 +188,9 @@ namespace BetterRimworlds.UpliftedAnimals
                 // this.pawn.workSettings = new Pawn_WorkSettings(this.pawn);
             }
 
-            NameTriple pawnName;
-            string firstName;
-            if (this.pawn.Name != null && this.pawn.Name.Numerical == false)
-            {
-                firstName = this.pawn.Name.ToStringShort;
-            }
-            else
-            {
-                NameTriple solidName = PawnBioAndNameGenerator.TryGetRandomUnusedSolidName(this.pawn.gender);
-                firstName = solidName != null ? solidName.First : this.pawn.LabelShort;
-            }
-
-            pawnName = new NameTriple(firstName, firstName, kindName);
-
-            // if (pawn.Name.Numerical == true)
-            // {
-                //pawnName = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Full, kindName);
-                Log.Warning("====== New Name: " + pawnName + " =======");
-            // }
-
-            // if (compatibleSpecies)
-            // {
-            // Needed for full uplifting.
-                // PawnBioAndNameGenerator.GiveAppropriateBioAndNameTo(this.pawn, kindName, this.pawn.Faction.def);
-            // }
-
-            this.pawn.Name = pawnName;
+            UpliftedNamer.GiveUpliftName(this.pawn, kindName);
+            Name pawnName = this.pawn.Name;
+            Log.Warning("====== New Name: " + pawnName + " =======");
 
             // {FULLY UPLIFTED ANIMAL}}
             // this.pawn.caller = new Pawn_CallTracker(this.pawn);

@@ -4,6 +4,11 @@
     <defName>Uplifted_Raccoon</defName>
     <label>uplifted raccoon</label>
     <description>An intelligent, adventurous, and ferocious sentient Raccoon. Approximate IQ of 70.</description>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <statBases>
       <MoveSpeed>5.1</MoveSpeed>
       <MarketValue>10000</MarketValue>

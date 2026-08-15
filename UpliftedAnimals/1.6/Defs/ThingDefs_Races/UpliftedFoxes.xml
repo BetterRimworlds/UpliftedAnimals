@@ -21,12 +21,20 @@
     <tradeTags Inherit="False">
       <li>AnimalExotic</li>
     </tradeTags>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <race>
       <petness>1</petness>
       <herdMigrationAllowed>false</herdMigrationAllowed>
       <neverIncludeInQuests>true</neverIncludeInQuests>
       <baseHungerRate>0.16</baseHungerRate>
       <trainability>Advanced</trainability>
+      <specialTrainables>
+        <li>AttackTarget</li>
+      </specialTrainables>
       <lifeExpectancy>35</lifeExpectancy>
       <!-- Inherit="False" replaces ThingBaseFox's 3 stages instead of appending them (6 vs 3 PawnKind mismatch). -->
       <lifeStageAges Inherit="False">

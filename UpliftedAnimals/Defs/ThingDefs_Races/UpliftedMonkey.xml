@@ -6,6 +6,11 @@
     <defName>Uplifted_Monkey</defName>
     <label>uplifted monkey</label>
     <description>An intelligent, social, and sentient monkey uplifted by ALZ-112. Its enhanced brain allows advanced training and complex work. Larger and more cognitively demanding than ordinary monkeys, uplifted monkeys require more food to sustain their expanded minds.</description>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <statBases>
       <MoveSpeed>4.3</MoveSpeed>
       <MarketValue>10000</MarketValue>

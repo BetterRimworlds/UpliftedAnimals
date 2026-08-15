@@ -11,6 +11,7 @@
  */
 
 #nullable disable
+using System.Collections.Generic;
 using Verse;
 
 namespace BetterRimworlds.UpliftedAnimals
@@ -55,6 +56,25 @@ namespace BetterRimworlds.UpliftedAnimals
             }
         }
 #endif
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+
+            Pawn pawn = this.parent as Pawn;
+            if (pawn == null)
+            {
+                yield break;
+            }
+
+            foreach (Gizmo gizmo in UpliftedTarget.GetGizmos(pawn))
+            {
+                yield return gizmo;
+            }
+        }
 
         private void TryName()
         {

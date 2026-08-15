@@ -9,6 +9,11 @@
     <tradeTags Inherit="False">
       <li>AnimalExotic</li>
     </tradeTags>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <race>
       <petness>1</petness>
       <wildness>0</wildness>

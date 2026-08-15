@@ -10,6 +10,7 @@
  * Most rights are reserved.
  */
 
+using System;
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
@@ -85,6 +86,100 @@ namespace BetterRimworlds.UpliftedAnimals
                     def.comps.Add(new CompProperties_UpliftedNamer());
                 }
             }
+
+            EnsureAttackTargetDef();
+            InjectAttackTargetSupport();
         }
+
+        // 1.2–1.5 (and 1.6 without Odyssey) have no AttackTarget def.
+        // Use Odyssey's name so a later 1.6+ save still loads the training.
+        private static void EnsureAttackTargetDef()
+        {
+            if (DefDatabase<TrainableDef>.GetNamedSilentFail(UpliftedAttackTarget.DefName) != null)
+            {
+                return;
+            }
+
+            TrainableDef def = new TrainableDef();
+            def.defName = UpliftedAttackTarget.DefName;
+            def.label = "attack target";
+            def.description = "The animal can be sent at one pawn its master can see. Requires attack training.";
+            def.icon = "UI/Icons/Trainables/Release";
+            def.listPriority = 700f;
+            def.difficulty = 100f;
+            def.requiredTrainability = TrainabilityDefOf.Intermediate;
+            def.steps = 2;
+            def.prerequisites = new List<TrainableDef> { TrainableDefOf.Release };
+            def.defaultTrainable = true;
+            def.tags = new List<string> { "Combat" };
+            def.ResolveReferences();
+            DefDatabase<TrainableDef>.Add(def);
+            TrainableUtility.Reset();
+        }
+
+        private static void InjectAttackTargetSupport()
+        {
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+            {
+                if (def.race == null)
+                {
+                    continue;
+                }
+
+                if (def.race.Humanlike)
+                {
+                    EnsureComp(def, new CompProperties_MasterAttackTarget());
+                }
+
+                if (!UpliftedNamer.IsUplifted(def))
+                {
+                    continue;
+                }
+
+                EnsureComp(def, new CompProperties_AttackTarget());
+#if RIMWORLD16
+                EnsureUpliftedCanTrainAttackTarget(def);
+#endif
+            }
+        }
+
+        private static void EnsureComp(ThingDef def, CompProperties props)
+        {
+            if (def.comps == null)
+            {
+                def.comps = new List<CompProperties>();
+            }
+
+            System.Type compClass = props.compClass;
+            if (def.comps.Exists(c => c != null && c.compClass == compClass))
+            {
+                return;
+            }
+
+            def.comps.Add(props);
+        }
+
+#if RIMWORLD16
+        // If 1.6+ already defined AttackTarget as a special row, list it
+        // on our races so the checkbox exists. We do not copy that DLC.
+        private static void EnsureUpliftedCanTrainAttackTarget(ThingDef def)
+        {
+            TrainableDef attackTarget = UpliftedAttackTarget.Def;
+            if (attackTarget == null || !attackTarget.specialTrainable)
+            {
+                return;
+            }
+
+            if (def.race.specialTrainables == null)
+            {
+                def.race.specialTrainables = new List<TrainableDef>();
+            }
+
+            if (!def.race.specialTrainables.Contains(attackTarget))
+            {
+                def.race.specialTrainables.Add(attackTarget);
+            }
+        }
+#endif
     }
 }

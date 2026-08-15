@@ -4,6 +4,11 @@
     <defName>Uplifted_Cassowary</defName>
     <label>uplifted cassowary</label>
     <description>An intelligent, formidable cassowary uplifted by ALZ-112.</description>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <statBases>
       <MoveSpeed>4.6</MoveSpeed>
       <MarketValue>10000</MarketValue>
@@ -979,6 +984,11 @@
     <defName>Uplifted_Ostrich</defName>
     <label>uplifted ostrich</label>
     <description>An intelligent, immense ostrich uplifted by ALZ-112.</description>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <statBases>
       <MoveSpeed>6.0</MoveSpeed>
       <MarketValue>10000</MarketValue>

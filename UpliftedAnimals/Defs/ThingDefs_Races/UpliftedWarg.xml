@@ -6,6 +6,11 @@
     <defName>Uplifted_Warg</defName>
     <label>uplifted warg</label>
     <description>An intelligent, dangerous, and sentient warg uplifted by ALZ-112. Its enhanced brain allows advanced training and complex work. Uplifted wargs remain strict carnivores and terrifying combat animals, but can now be trained for hauling and rescue work.</description>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <statBases>
       <MoveSpeed>5.0</MoveSpeed>
       <MarketValue>15000</MarketValue>

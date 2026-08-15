@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- defName matches 1.6+ Odyssey for save lookup only. -->
+  <TrainableDef>
+    <defName>AttackTarget</defName>
+    <label>attack target</label>
+    <description>Command the animal to attack a specific, visible target. Requires the base attack training.</description>
+    <icon>UI/Icons/Trainables/Release</icon>
+    <listPriority>700</listPriority>
+    <difficulty>100</difficulty>
+    <requiredTrainability>Intermediate</requiredTrainability>
+    <steps>2</steps>
+    <prerequisites>
+      <li>Release</li>
+    </prerequisites>
+    <defaultTrainable>true</defaultTrainable>
+    <tags>
+      <li>Combat</li>
+    </tags>
+  </TrainableDef>
+
+</Defs>

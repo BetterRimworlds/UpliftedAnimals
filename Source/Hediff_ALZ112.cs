@@ -51,6 +51,7 @@ namespace BetterRimworlds.UpliftedAnimals
         private ThingDef pendingTendMedicineDef;
         private int pendingTendMedicineUntilTick;
         private int lastMedicineWatchTick = -1;
+        private int lastTimesTendedTo = -1;
 
         // Incompatible / human: death-save fails 50% more often than the raw
         // snake-eyes rate, and the 3d6 bonus grows half as fast.
@@ -98,10 +99,6 @@ namespace BetterRimworlds.UpliftedAnimals
             {
                 return;
             }
-
-            Messages.Message(
-                $"{this.pawn.Name}'s ALZ-112 Exposure decreased by {applied * 100f:F1}% after treatment with {medicineDef.label}.",
-                MessageTypeDefOf.PositiveEvent);
         }
 
         private void MaybeApplyMedicineFromWoundTend()
@@ -119,9 +116,14 @@ namespace BetterRimworlds.UpliftedAnimals
 
             this.lastMedicineWatchTick = now;
             this.RememberActiveTendMedicine(now);
-            if (this.WoundTendTicksJustJumped() && this.pendingTendMedicineDef != null)
+            // Jobs tick before health. FinalizeTend has already consumed the
+            // medicine by the time we see the tend-complete signal, so keep
+            // the last seen industrial/glitterworld def — do not replace it
+            // with null from the now-empty job target.
+            if (this.TendJustCompleted() && this.pendingTendMedicineDef != null)
             {
                 this.NotifyTreatedWithMedicine(this.pendingTendMedicineDef);
+                this.pendingTendMedicineDef = null;
             }
         }
 
@@ -131,8 +133,12 @@ namespace BetterRimworlds.UpliftedAnimals
             ThingDef medicineDef = this.FindActiveTendMedicine(out tendingNow);
             if (tendingNow)
             {
-                this.pendingTendMedicineDef = medicineDef;
-                this.pendingTendMedicineUntilTick = now + 180;
+                if (medicineDef != null)
+                {
+                    this.pendingTendMedicineDef = medicineDef;
+                    this.pendingTendMedicineUntilTick = now + 180;
+                }
+
                 return;
             }
 
@@ -257,6 +263,39 @@ namespace BetterRimworlds.UpliftedAnimals
             }
 
             this.WoundTendTicksJustJumped();
+            this.SnapshotTimesTended();
+        }
+
+        private void SnapshotTimesTended()
+        {
+            if (this.pawn?.records == null)
+            {
+                this.lastTimesTendedTo = -1;
+                return;
+            }
+
+            this.lastTimesTendedTo = this.pawn.records.GetAsInt(RecordDefOf.TimesTendedTo);
+        }
+
+        private bool TendJustCompleted()
+        {
+            bool woundJumped = this.WoundTendTicksJustJumped();
+            bool tendedRecordJumped = false;
+            if (this.pawn.records != null)
+            {
+                int current = this.pawn.records.GetAsInt(RecordDefOf.TimesTendedTo);
+                if (this.lastTimesTendedTo < 0)
+                {
+                    this.lastTimesTendedTo = current;
+                }
+                else if (current > this.lastTimesTendedTo)
+                {
+                    tendedRecordJumped = true;
+                    this.lastTimesTendedTo = current;
+                }
+            }
+
+            return woundJumped || tendedRecordJumped;
         }
 
         public override void PostAdd(DamageInfo? dinfo)
@@ -345,6 +384,7 @@ namespace BetterRimworlds.UpliftedAnimals
                 return;
             }
 
+            this.MaybeApplyMedicineFromWoundTend();
             this.CheckUpliftChance();
         }
 #endif

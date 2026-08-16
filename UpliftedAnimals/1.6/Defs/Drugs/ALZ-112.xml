@@ -21,7 +21,7 @@
 		<ingestible>
 			<drugCategory>Medical</drugCategory>
 			<outcomeDoers>
-				<li Class="IngestionOutcomeDoer_GiveHediff">
+				<li Class="BetterRimworlds.UpliftedAnimals.IngestionOutcomeDoer_GiveALZ112">
 					<hediffDef>ALZ112Exposure</hediffDef>
 					<severity>0.25</severity>
 					<doToGeneratedPawnIfAddicted>false</doToGeneratedPawnIfAddicted>

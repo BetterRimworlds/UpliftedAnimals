@@ -60,8 +60,9 @@ namespace BetterRimworlds.UpliftedAnimals
 
         // Exposure is removed explicitly on success. Compatible species start
         // at 0% progress; a Severity<=0 check would delete the hediff on the
-        // next health tick and abort the uplift.
-        public override bool ShouldRemove => false;
+        // next health tick and abort the uplift. Already-Uplifted pawns drop
+        // a leftover second-dose Exposure immediately (live saves included).
+        public override bool ShouldRemove => ALZ112Medical.IsImmune(this.pawn);
 
         // Vanilla CauseDeathNow treats lethalSeverity as an instant kill once
         // IsLethal is true. Death is owned by the dice + 100% severity bar.
@@ -261,6 +262,10 @@ namespace BetterRimworlds.UpliftedAnimals
         public override void PostAdd(DamageInfo? dinfo)
         {
             base.PostAdd(dinfo);
+            if (ALZ112Medical.IsImmune(this.pawn))
+            {
+                return;
+            }
 
             bool compatibleSpecies = this.IsCompatibleSpecies();
             this.SetProgress(compatibleSpecies ? 0.001f : 0.25f);
@@ -321,6 +326,11 @@ namespace BetterRimworlds.UpliftedAnimals
         public override void Tick()
         {
             base.Tick();
+            if (ALZ112Medical.IsImmune(this.pawn))
+            {
+                return;
+            }
+
             this.MaybeApplyMedicineFromWoundTend();
             this.MaybeStartBerserk();
             this.CheckUpliftChance();
@@ -330,13 +340,19 @@ namespace BetterRimworlds.UpliftedAnimals
         public override void TickInterval(int delta)
         {
             base.TickInterval(delta);
+            if (ALZ112Medical.IsImmune(this.pawn))
+            {
+                return;
+            }
+
             this.CheckUpliftChance();
         }
 #endif
 
         private void CheckUpliftChance()
         {
-            if (this.pawn == null || this.pawn.Dead || this.pawn.health == null)
+            if (this.pawn == null || this.pawn.Dead || this.pawn.health == null ||
+                ALZ112Medical.IsImmune(this.pawn))
             {
                 return;
             }

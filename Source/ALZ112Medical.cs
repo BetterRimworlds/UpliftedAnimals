@@ -29,6 +29,28 @@ namespace BetterRimworlds.UpliftedAnimals
             return pawn.health.hediffSet.HasHediff(BRW_HediffDefOf.ALZ112Exposure);
         }
 
+        // Already rewritten. A second dose must consume the pill and do
+        // nothing else — no Exposure, dice, rage, or re-uplift.
+        public static bool IsImmune(Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+
+            if (UpliftedNamer.IsUplifted(pawn.def))
+            {
+                return true;
+            }
+
+            if (pawn.health?.hediffSet == null || BRW_HediffDefOf.ALZ112Uplifted == null)
+            {
+                return false;
+            }
+
+            return pawn.health.hediffSet.HasHediff(BRW_HediffDefOf.ALZ112Uplifted);
+        }
+
         public static bool HasAdministerBill(Pawn pawn)
         {
             BillStack stack = pawn?.health?.surgeryBills;

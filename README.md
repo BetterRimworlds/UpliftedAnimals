@@ -70,7 +70,18 @@ Each animal will receive the following enhancements:
 * Ability to Rescue (if big enough).
 * Very, very slim chance of Full Uplifting (e.g., become a Colonist in your colony).
 
-You can see the Lethality Odds of any exposed creature directly in the Health tab.
+Severity on the Health tab is the death bar. It kills at 100%.
+
+## Lethality
+
+ALZ-112 is not the Simian Flu. ALZ-113 is. So the scale is:
+
+| Drug | What it does to a human | How it fails | Extrapolated deaths |
+|---|---|---|---|
+| **ALZ-112** | Rewrite toward Uplifted: ~150% consciousness, still human | Immune clearance, brain swelling, or the incompatible dice filling the bar | **~25%** |
+| **ALZ-113** | Full overwrite (Ascended / Atlantean on the right subjects; wild-man collapse on the wrong ones) | Hemorrhagic Simian Flu | **~99%** |
+
+That is case fatality of a dose, not a planet-wide pandemic. 112 is administered. 113 is the plague. Untreated human 112 exposure on the current dice lands at about **27%** dead and **73%** Uplifted, which is the movie ballpark for 112.
 
 ## Humans
 

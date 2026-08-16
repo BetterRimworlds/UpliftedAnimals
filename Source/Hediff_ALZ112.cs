@@ -38,55 +38,244 @@ namespace BetterRimworlds.UpliftedAnimals
 
         private double lethality;
         private int upliftAttempts = 0;
+        private float manhunterMtbDays;
 
-        public override bool ShouldRemove => Severity <= 0.001f;
+        // 2500 ticks = 1 in-game hour.
+        private const float TicksPerHour = 2500f;
+        private const float AnimalBerserkMtbDays = 2.5f / 24f;
+        private const float HumanBerserkMtbDays = 9f / 24f;
+
+        // No Harmony: watch the tend job + wound tend timers. ALZ-112 itself
+        // stays tendable=false so it never gets a tend cooldown.
+        private readonly Dictionary<int, int> lastWoundTendTicksLeft = new Dictionary<int, int>();
+        private ThingDef pendingTendMedicineDef;
+        private int pendingTendMedicineUntilTick;
+        private int lastMedicineWatchTick = -1;
+
+        // Incompatible / human: death-save fails 50% more often than the raw
+        // snake-eyes rate, and the 3d6 bonus grows half as fast.
+        private const float IncompatibleLethalityFactor = 1.5f;
+        private const int CompatibleUpliftBonusPerAttempts = 10;
+        private const int IncompatibleUpliftBonusPerAttempts = 20;
+
+        // Exposure is removed explicitly on success. Compatible species start
+        // at 0% progress; a Severity<=0 check would delete the hediff on the
+        // next health tick and abort the uplift.
+        public override bool ShouldRemove => false;
+
+        // Vanilla CauseDeathNow treats lethalSeverity as an instant kill once
+        // IsLethal is true. Death is owned by the dice + 100% severity bar.
+        public override bool CauseDeathNow() => false;
 
         // private float healAmount => base.Part.def.GetMaxHealth(pawn) * Rand.Gaussian(meanHeal, healDeviation);
 
-        // HediffComp_TendDuration but tendable = false
+        private void NotifyTreatedWithMedicine(ThingDef medicineDef)
+        {
+            if (medicineDef == null || this.pawn == null || this.pawn.Dead)
+            {
+                return;
+            }
+
+            float reduction;
+            if (medicineDef == ThingDefOf.MedicineUltratech)
+            {
+                reduction = Rand.RangeInclusive(100, 250) / 1000f;
+            }
+            else if (medicineDef == ThingDefOf.MedicineIndustrial)
+            {
+                reduction = Rand.RangeInclusive(50, 100) / 1000f;
+            }
+            else
+            {
+                return;
+            }
+
+            float before = this.internalSeverity;
+            this.SetProgress(this.internalSeverity - reduction);
+            float applied = before - this.internalSeverity;
+            if (applied <= 0f)
+            {
+                return;
+            }
+
+            Messages.Message(
+                $"{this.pawn.Name}'s ALZ-112 Exposure decreased by {applied * 100f:F1}% after treatment with {medicineDef.label}.",
+                MessageTypeDefOf.PositiveEvent);
+        }
+
+        private void MaybeApplyMedicineFromWoundTend()
+        {
+            if (this.pawn == null || this.pawn.Dead || this.pawn.health?.hediffSet == null)
+            {
+                return;
+            }
+
+            int now = Current.Game.tickManager.TicksGame;
+            if (this.lastMedicineWatchTick == now)
+            {
+                return;
+            }
+
+            this.lastMedicineWatchTick = now;
+            this.RememberActiveTendMedicine(now);
+            if (this.WoundTendTicksJustJumped() && this.pendingTendMedicineDef != null)
+            {
+                this.NotifyTreatedWithMedicine(this.pendingTendMedicineDef);
+            }
+        }
+
+        private void RememberActiveTendMedicine(int now)
+        {
+            bool tendingNow;
+            ThingDef medicineDef = this.FindActiveTendMedicine(out tendingNow);
+            if (tendingNow)
+            {
+                this.pendingTendMedicineDef = medicineDef;
+                this.pendingTendMedicineUntilTick = now + 180;
+                return;
+            }
+
+            if (now > this.pendingTendMedicineUntilTick)
+            {
+                this.pendingTendMedicineDef = null;
+            }
+        }
+
+        private ThingDef FindActiveTendMedicine(out bool tendingNow)
+        {
+            ThingDef medicineDef;
+            if (this.TryReadTendJob(this.pawn, this.pawn, out medicineDef))
+            {
+                tendingNow = true;
+                return medicineDef;
+            }
+
+            var spawned = this.pawn.Map?.mapPawns?.AllPawnsSpawned;
+            if (spawned == null)
+            {
+                tendingNow = false;
+                return null;
+            }
+
+            foreach (Pawn doctor in spawned)
+            {
+                if (doctor == null || doctor == this.pawn)
+                {
+                    continue;
+                }
+
+                if (this.TryReadTendJob(doctor, this.pawn, out medicineDef))
+                {
+                    tendingNow = true;
+                    return medicineDef;
+                }
+            }
+
+            tendingNow = false;
+            return null;
+        }
+
+        private bool TryReadTendJob(Pawn doctor, Pawn patient, out ThingDef medicineDef)
+        {
+            medicineDef = null;
+            Job job = doctor?.CurJob;
+            if (job == null || job.def != JobDefOf.TendPatient)
+            {
+                return false;
+            }
+
+            if (job.targetA.Thing != patient && job.targetA.Pawn != patient)
+            {
+                return false;
+            }
+
+            Thing medicine = job.targetB.Thing;
+            if (!IsMedicineItem(medicine))
+            {
+                medicine = job.targetC.Thing;
+            }
+
+            if (IsMedicineItem(medicine))
+            {
+                medicineDef = medicine.def;
+            }
+
+            return true;
+        }
+
+        private static bool IsMedicineItem(Thing thing)
+        {
+            return thing?.def != null &&
+                   (thing.def == ThingDefOf.MedicineIndustrial ||
+                    thing.def == ThingDefOf.MedicineUltratech ||
+                    thing.def == ThingDefOf.MedicineHerbal);
+        }
+
+        private bool WoundTendTicksJustJumped()
+        {
+            bool jumped = false;
+            List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+            for (int i = 0; i < hediffs.Count; i++)
+            {
+                HediffWithComps withComps = hediffs[i] as HediffWithComps;
+                if (withComps == null)
+                {
+                    continue;
+                }
+
+                HediffComp_TendDuration tend = withComps.TryGetComp<HediffComp_TendDuration>();
+                if (tend == null)
+                {
+                    continue;
+                }
+
+                int id = withComps.loadID;
+                int left = tend.tendTicksLeft;
+                int prev;
+                if (!this.lastWoundTendTicksLeft.TryGetValue(id, out prev))
+                {
+                    prev = left;
+                }
+                else if (left > prev + 30)
+                {
+                    jumped = true;
+                }
+
+                this.lastWoundTendTicksLeft[id] = left;
+            }
+
+            return jumped;
+        }
+
+        private void SnapshotWoundTendTicks()
+        {
+            this.lastWoundTendTicksLeft.Clear();
+            if (this.pawn?.health?.hediffSet?.hediffs == null)
+            {
+                return;
+            }
+
+            this.WoundTendTicksJustJumped();
+        }
 
         public override void PostAdd(DamageInfo? dinfo)
         {
             base.PostAdd(dinfo);
 
-            // Severity = Part.def.GetMaxHealth(this.pawn) - 1f;
-            Severity = 0.25f;
-            this.internalSeverity = 0.25f;
+            bool compatibleSpecies = this.IsCompatibleSpecies();
+            this.SetProgress(compatibleSpecies ? 0.001f : 0.25f);
 
-            CurStage.restFallFactorOffset = 5f;
+            this.deathMultiple = compatibleSpecies ? 7 : Rand.RangeInclusive(3, 5);
+            this.manhunterMtbDays = Rand.Range(8f, 10f) / 24f;
+            this.ConfigureLethality();
+            this.SnapshotWoundTendTicks();
+        }
 
-            var compatibleSpecies = true;
-            var baseAnimalDef = DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName);
-
-            if (baseAnimalDef == null)
-            {
-                compatibleSpecies = false;
-                baseAnimalDef = DefDatabase<ThingDef>.GetNamed(this.pawn.def.defName);
-            }
-
-            if (compatibleSpecies == true)
-            {
-                Severity = 0.0f;
-                this.internalSeverity = 0.0f;
-            }
-
-            CurStage.hungerRateFactorOffset = 5f;
-            var random = new System.Random();
-
-            this.deathMultiple = compatibleSpecies ? 7 : random.Next(2, 5);
-
-            double probability = this.deathMultiple == 1 ? 1 : 1.0f / Math.Pow((this.deathMultiple - 1), 2);
-            this.lethality = Math.Round(probability * 100f, 2);
-
-            // 1 in 216 == Odds of hitting 6, 6, 6 with 3 dice.
-            // Example:
-            //     Rolling 1, 1 on 2 3-sided dice == 0.111111 probability.
-            //     To match this to a 216 odds cycle:
-            //         216 / 0.111111 = 1944.000
-            //         1944.000 / 216 = 9.000 divisor
-            //         0.111111 / 9.000 = 0.012345678 or 1 out of 81 odds.
-            //     To check: 216 / 81 = 2.6667, roughly 0.1234% probability, which is close enough.
-            this.severityIncrement = (float)(probability/(216.0f / probability / 216.0f));
+        // A second dose must not merge and add 0.25 to vanilla Severity.
+        // That desynced the kill bar and could look like "died at 25%".
+        public override bool TryMergeWith(Hediff other)
+        {
+            return other != null && other.def == this.def;
         }
 
         public override float BleedRate => 0f;
@@ -96,7 +285,7 @@ namespace BetterRimworlds.UpliftedAnimals
             get
             {
                 string severityString = $"{this.internalSeverity * 100f:F2}%";
-                int upliftBonus = this.upliftAttempts / 10;
+                int upliftBonus = this.upliftAttempts / this.UpliftBonusDivisor;
                 int targetRoll = Math.Max(3, 18 - upliftBonus);
 
                 int[] successCounts =
@@ -108,8 +297,7 @@ namespace BetterRimworlds.UpliftedAnimals
                 float upliftChance = successCounts[targetRoll] / 216f * 100f;
 
                 return $"ALZ-112 Exposure\n" +
-                    $"  • Lethality: {this.lethality}%\n" +
-                    $"  • Uplift Mod #{this.upliftAttempts}\n" +
+                    $"  • Uplift Attempt #{this.upliftAttempts}\n" +
                     $"  • Uplift Bonus: +{upliftBonus}\n" +
                     $"  • Uplift Chance: {upliftChance:F2}%\n" +
                     $"  • Severity: {severityString}";
@@ -133,39 +321,241 @@ namespace BetterRimworlds.UpliftedAnimals
         public override void Tick()
         {
             base.Tick();
+            this.MaybeApplyMedicineFromWoundTend();
+            this.MaybeStartBerserk();
+            this.CheckUpliftChance();
+        }
 
-            bool flag = Current.Game.tickManager.TicksGame >= this.ticksUntilNextChance;
-            if (flag)
+#if RIMWORLD16
+        public override void TickInterval(int delta)
+        {
+            base.TickInterval(delta);
+            this.CheckUpliftChance();
+        }
+#endif
+
+        private void CheckUpliftChance()
+        {
+            if (this.pawn == null || this.pawn.Dead || this.pawn.health == null)
             {
-                if (this.TryUplift() == false)
-                {
-                    this.SetNextTick();
-                }
+                return;
             }
+
+            // 1.6 calls both Tick and TickInterval. After a successful uplift
+            // healBrainInjuries removes this hediff; the interval pass must
+            // not roll death on the dangling instance.
+            if (!this.pawn.health.hediffSet.hediffs.Contains(this))
+            {
+                return;
+            }
+
+            if (this.deathMultiple < 3 || this.severityIncrement <= 0f || this.severityIncrement > 0.08f)
+            {
+                this.ConfigureLethality();
+            }
+
+            if (Current.Game.tickManager.TicksGame < this.ticksUntilNextChance)
+            {
+                return;
+            }
+
+            if (this.TryUplift() == false)
+            {
+                this.SetNextTick();
+            }
+        }
+
+        private bool IsCompatibleSpecies()
+        {
+            if (this.pawn?.def == null)
+            {
+                return false;
+            }
+
+            // Already-uplifted races have no Uplifted_Uplifted_* def. They
+            // must stay on the safe dice, not the human/incompatible table.
+            if (UpliftedNamer.IsUplifted(this.pawn.def))
+            {
+                return true;
+            }
+
+            return DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName) != null;
+        }
+
+        private bool IsHumanlikePawn => this.pawn != null && this.pawn.RaceProps != null && this.pawn.RaceProps.Humanlike;
+
+        private int UpliftBonusDivisor =>
+            this.IsCompatibleSpecies()
+                ? CompatibleUpliftBonusPerAttempts
+                : IncompatibleUpliftBonusPerAttempts;
+
+        // Sleeping / bedded patients can still snap (forceWake). Downed
+        // or immobile pawns must not — a forced Berserk/Manhunter job on
+        // a 0-Moving pawn throws. Animals: Manhunter every 8–10 hours;
+        // otherwise short Berserk so they attack anything that moves.
+        // After the episode they go back to a hospital bed.
+        private void MaybeStartBerserk()
+        {
+            if (this.pawn == null || this.pawn.Dead || this.pawn.mindState == null)
+            {
+                return;
+            }
+
+            if (!this.pawn.Spawned)
+            {
+                return;
+            }
+
+            if (this.pawn.Downed || ALZ112Medical.HasAdministerBill(this.pawn))
+            {
+                this.RecoverRageIfAny();
+                return;
+            }
+
+            if (this.pawn.InMentalState)
+            {
+                return;
+            }
+
+            if (this.pawn.health?.capacities == null ||
+                !this.pawn.health.capacities.CanBeAwake ||
+                !this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving))
+            {
+                return;
+            }
+
+            if (!this.pawn.IsHashIntervalTick(60))
+            {
+                return;
+            }
+
+            if (this.manhunterMtbDays <= 0f)
+            {
+                this.manhunterMtbDays = Rand.Range(8f, 10f) / 24f;
+            }
+
+            if (this.IsHumanlikePawn)
+            {
+                if (Rand.MTBEventOccurs(HumanBerserkMtbDays, 60000f, 60f))
+                {
+                    this.StartRage("Berserk", silent: false, minHours: 1f, maxHours: 2f);
+                }
+
+                return;
+            }
+
+            if (Rand.MTBEventOccurs(this.manhunterMtbDays, 60000f, 60f))
+            {
+                this.StartRage("Manhunter", silent: false, minHours: 1.5f, maxHours: 2.5f);
+                return;
+            }
+
+            if (Rand.MTBEventOccurs(AnimalBerserkMtbDays, 60000f, 60f))
+            {
+                this.StartRage("Berserk", silent: true, minHours: 1f, maxHours: 1.8f);
+            }
+        }
+
+        private void StartRage(string defName, bool silent, float minHours, float maxHours)
+        {
+            MentalStateDef rage = DefDatabase<MentalStateDef>.GetNamedSilentFail(defName);
+            if (rage == null)
+            {
+                return;
+            }
+
+            string reason = "MentalStateReason_Hediff".Translate(this.Label);
+            bool started;
+#if RIMWORLD15 || RIMWORLD16
+            started = this.pawn.mindState.mentalStateHandler.TryStartMentalState(
+                rage, reason, forceWake: true, transitionSilently: silent);
+#else
+            started = this.pawn.mindState.mentalStateHandler.TryStartMentalState(
+                rage, reason, forceWake: true, causedByMood: false, otherPawn: null);
+#endif
+            if (!started || this.pawn.MentalState == null)
+            {
+                return;
+            }
+
+            int minTicks = (int)(minHours * TicksPerHour);
+            int maxTicks = (int)(maxHours * TicksPerHour);
+            this.pawn.MentalState.forceRecoverAfterTicks = Rand.RangeInclusive(minTicks, maxTicks);
+        }
+
+        private void RecoverRageIfAny()
+        {
+            MentalStateDef cur = this.pawn.MentalStateDef;
+            if (cur == null)
+            {
+                return;
+            }
+
+            if (cur.defName != "Berserk" && cur.defName != "Manhunter")
+            {
+                return;
+            }
+
+            this.pawn.mindState.mentalStateHandler.CurState?.RecoverFromState();
+        }
+
+        private void ConfigureLethality()
+        {
+            if (this.IsCompatibleSpecies())
+            {
+                this.deathMultiple = 7;
+            }
+            else if (this.deathMultiple < 3)
+            {
+                // Old 1-sided / 100% saves. Do not re-roll 3–5 or a reload
+                // changes their odds. 3 = 2-sided dice = 25% snake-eyes.
+                this.deathMultiple = 3;
+            }
+
+            int deathDieSides = Math.Max(2, this.deathMultiple - 1);
+            double snakeEyes = 1.0 / (deathDieSides * deathDieSides);
+            double failChance = this.IsCompatibleSpecies()
+                ? snakeEyes
+                : snakeEyes * IncompatibleLethalityFactor;
+            this.lethality = Math.Round(failChance * 100.0, 2);
+
+            // increment = snake-eyes p², matching the original 216-cycle
+            // comment (p=1/9 → 1/81). Never a full-bar step. The 1.5x
+            // incompatible factor is extra fails, not bigger steps.
+            float rawIncrement = (float)(snakeEyes * snakeEyes);
+            this.severityIncrement = Math.Min(rawIncrement, 0.08f);
+            if (this.severityIncrement < 0.001f)
+            {
+                this.severityIncrement = rawIncrement > 0f ? rawIncrement : 0.001f;
+            }
+        }
+
+        private void SetProgress(float value)
+        {
+            this.internalSeverity = Math.Max(0f, Math.Min(value, 1f));
+            this.Severity = Math.Max(this.internalSeverity, 0.001f);
         }
 
         private bool DoUplifting()
         {
-            ThingDef baseAnimalDef;
+            bool humanlike = this.IsHumanlikePawn;
             string kindName = this.pawn.def.defName;
 
-            var compatibleSpecies = true;
-            baseAnimalDef = DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName);
-
-            if (baseAnimalDef == null)
+            if (!humanlike && !UpliftedNamer.IsUplifted(this.pawn.def))
             {
-                compatibleSpecies = false;
-                baseAnimalDef = DefDatabase<ThingDef>.GetNamed(this.pawn.def.defName);
-            }
+                ThingDef baseAnimalDef = DefDatabase<ThingDef>.GetNamedSilentFail("Uplifted_" + this.pawn.def.defName);
+                if (baseAnimalDef == null)
+                {
+                    baseAnimalDef = DefDatabase<ThingDef>.GetNamed(this.pawn.def.defName);
+                }
 
-            this.pawn.def = baseAnimalDef;
-            // Birth clones mother.kindDef. Keep it aligned with the new race once,
-            // at the moment of uplift, so future offspring inherit the uplift.
-            PawnKindDef upliftedKind = DefDatabase<PawnKindDef>.GetNamedSilentFail(
-                baseAnimalDef.defName);
-            if (upliftedKind != null && this.pawn.kindDef != upliftedKind)
-            {
-                this.pawn.ChangeKind(upliftedKind);
+                this.pawn.def = baseAnimalDef;
+                PawnKindDef upliftedKind = DefDatabase<PawnKindDef>.GetNamedSilentFail(
+                    baseAnimalDef.defName);
+                if (upliftedKind != null && this.pawn.kindDef != upliftedKind)
+                {
+                    this.pawn.ChangeKind(upliftedKind);
+                }
             }
 
             // Cure the brain ailments + ALZ-112 Exposure..
@@ -180,15 +570,11 @@ namespace BetterRimworlds.UpliftedAnimals
                 uplifted.AnchorToColony();
             }
 
-            if (compatibleSpecies)
+            if (!humanlike)
             {
-                // this.pawn.skills = new Pawn_SkillTracker(this.pawn);
-                // this.pawn.story = new Pawn_StoryTracker(this.pawn);
-                // this.pawn.jobs = new Pawn_JobTracker(this.pawn);
-                // this.pawn.workSettings = new Pawn_WorkSettings(this.pawn);
+                UpliftedNamer.GiveUpliftName(this.pawn, kindName);
             }
 
-            UpliftedNamer.GiveUpliftName(this.pawn, kindName);
             Name pawnName = this.pawn.Name;
             Log.Warning("====== New Name: " + pawnName + " =======");
 
@@ -237,34 +623,41 @@ namespace BetterRimworlds.UpliftedAnimals
             // pawn.meleeVerbs = new Pawn_MeleeVerbs(pawn);
             // pawn.verbTracker.VerbsNeedReinitOnLoad();
 
-            pawn.filth = new Pawn_FilthTracker(pawn);
-            // pawn.royalty = new Pawn_RoyaltyTracker(pawn);
-
-            //this.pawn.InitializeComps();
+            if (!humanlike)
+            {
+                pawn.filth = new Pawn_FilthTracker(pawn);
+            }
 
             float days = this.totalTicks / 2500f / 24f;
             Log.Warning($"SUCCESSFULLY UPLIFTED AFTER {this.totalTicks} ({days} days)!!!");
             Messages.Message($"Successfully uplifted {this.pawn.Name} after {days} days!!", MessageTypeDefOf.PositiveEvent);
-            Find.LetterStack.ReceiveLetter(
-                "Uplifted Animal",
-                $"{pawnName} has been successfully Uplifted to full sentience after {days} days!",
-                LetterDefOf.PositiveEvent,
-                this.pawn);
 
-            //this.successfulUplift = true;
+            if (humanlike)
+            {
+                Find.LetterStack.ReceiveLetter(
+                    "Uplifted Human",
+                    $"{pawnName} has survived ALZ-112 and been Uplifted after {days} days. They remain human.",
+                    LetterDefOf.PositiveEvent,
+                    this.pawn);
+            }
+            else
+            {
+                Find.LetterStack.ReceiveLetter(
+                    "Uplifted Animal",
+                    $"{pawnName} has been successfully Uplifted to full sentience after {days} days!",
+                    LetterDefOf.PositiveEvent,
+                    this.pawn);
 
-            var alert = Dialog_MessageBox.CreateConfirmation(
-                this.pawn.Name + $" has been Uplifted after {days} days!.\n\n" + "You must immediately save and reopen the game.",
-                new Action(delegate
-                {
-
-                }),
-                destructive: true,
-                title: "Uplifted Animal"
-            );
-            Find.WindowStack.Add(alert);
-
-
+                var alert = Dialog_MessageBox.CreateConfirmation(
+                    this.pawn.Name + $" has been Uplifted after {days} days!.\n\n" + "You must immediately save and reopen the game.",
+                    new Action(delegate
+                    {
+                    }),
+                    destructive: true,
+                    title: "Uplifted Animal"
+                );
+                Find.WindowStack.Add(alert);
+            }
 
             return true;
         }
@@ -297,22 +690,36 @@ namespace BetterRimworlds.UpliftedAnimals
 
             ++this.upliftAttempts;
 
-            // Odds of Death:
-            // Compatible species: 2.78% odds of death. (1 in 37)
-            // Incompatible species: From 100% certain to 6.26%.
+            // Odds of a severity tick (snake eyes on two death dice):
+            // Compatible: 6-sided → 1/36.
+            // Human / incompatible: 2–4 sided → 1/4, 1/9, or 1/16.
+            int deathDieSides = Math.Max(2, this.deathMultiple - 1);
             var dices = new List<int>
             {
-                Rand.RangeInclusive(1, deathMultiple - 1),
-                Rand.RangeInclusive(1, deathMultiple - 1)
+                Rand.RangeInclusive(1, deathDieSides),
+                Rand.RangeInclusive(1, deathDieSides)
             };
 
             diceRoll = dices[0] + dices[1];
 
+            bool deathHit = diceRoll == 2;
+            if (!this.IsCompatibleSpecies() && !deathHit)
+            {
+                // Raise fail rate by 50% without a 1-sided die.
+                // extra = (1.5p - p) / (1 - p)
+                double snakeEyes = 1.0 / (deathDieSides * (double)deathDieSides);
+                double extraFail = 0.5 * snakeEyes / (1.0 - snakeEyes);
+                if (Rand.Value < extraFail)
+                {
+                    deathHit = true;
+                }
+            }
+
             string upliftStatus =
-                (diceRoll == 2 ? "Dying" : "Alive") +
+                (deathHit ? "Dying" : "Alive") +
                 $" (Severity: {this.internalSeverity})";
 
-            if (upliftStatus.Contains("Dying"))
+            if (deathHit)
             {
                 Log.Warning(
                     $"[Uplift] Attempt {this.upliftAttempts}: " +
@@ -320,13 +727,15 @@ namespace BetterRimworlds.UpliftedAnimals
                 );
             }
 
-            // If they roll snake eyes, increase severity and possibly kill them.
-            if (diceRoll == 2)
+            if (deathHit)
             {
-                this.internalSeverity = Math.Min(
-                    this.severityIncrement + this.internalSeverity,
-                    1.0f
-                );
+                float step = this.severityIncrement;
+                if (step <= 0f || step > 0.08f)
+                {
+                    step = Math.Min(0.08f, Math.Max(step, 0.001f));
+                }
+
+                this.SetProgress(this.internalSeverity + step);
 
                 Log.Warning(
                     $"[Uplift] The severity of the ALZ-112 Exposure in " +
@@ -357,7 +766,7 @@ namespace BetterRimworlds.UpliftedAnimals
             dices.Add(Rand.RangeInclusive(1, 6));
 
             int rawRoll = dices.Sum();
-            int upliftBonus = this.upliftAttempts / 10;
+            int upliftBonus = this.upliftAttempts / this.UpliftBonusDivisor;
             int adjustedRoll = rawRoll + upliftBonus;
 
             upliftStatus = adjustedRoll >= 18 ? "Uplifted" : "Unchanged";
@@ -387,6 +796,18 @@ namespace BetterRimworlds.UpliftedAnimals
             Scribe_Values.Look<float>(ref this.internalSeverity,   "internalSeverity", 0, false);
             Scribe_Values.Look<float>(ref this.severityIncrement,  "severityIncrement", 0, false);
             Scribe_Values.Look<double>(ref this.lethality,         "lethality", 0, false);
+            Scribe_Values.Look<float>(ref this.manhunterMtbDays,   "manhunterMtbDays", 0, false);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                this.ConfigureLethality();
+                this.SetProgress(this.internalSeverity);
+                this.SnapshotWoundTendTicks();
+                if (this.manhunterMtbDays <= 0f)
+                {
+                    this.manhunterMtbDays = Rand.Range(8f, 10f) / 24f;
+                }
+            }
         }
 
         public void SetNextTick()

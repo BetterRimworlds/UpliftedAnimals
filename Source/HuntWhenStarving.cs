@@ -81,6 +81,11 @@ namespace BetterRimworlds.UpliftedAnimals
                 return false;
             }
 
+            if (ALZ112Medical.WantsHospitalBed(pawn))
+            {
+                return false;
+            }
+
             if (pawn.Map == null || pawn.needs?.food == null)
             {
                 return false;

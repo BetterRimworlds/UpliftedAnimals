@@ -42,5 +42,10 @@ namespace BetterRimworlds.UpliftedAnimals
             UpliftedNamer.NameAllUnnamed();
             Designator_SlaughterUplifted.EnsureReverseDesignator();
         }
+
+        public override void GameComponentOnGUI()
+        {
+            AttackAnimalsHud.OnGUI();
+        }
     }
 }

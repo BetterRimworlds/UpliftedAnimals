@@ -123,6 +123,7 @@ namespace BetterRimworlds.UpliftedAnimals
 
             hunter.jobs.StopAll(false);
             hunter.jobs.StartJob(job, JobCondition.InterruptForced);
+            Dialog_AttackAnimals.CloseIfOpen();
         }
 
         private static void BeginTargetingSelected()

@@ -11,4 +11,11 @@
   <BRW_AttackTargetNeedsMaster>Assign a master first.</BRW_AttackTargetNeedsMaster>
   <BRW_AttackTargetMasterAway>The master is not on this map.</BRW_AttackTargetMasterAway>
 
+  <BRW_AttackAnimals>Attack animals</BRW_AttackAnimals>
+  <BRW_AttackAnimalsDesc>Colony animals that can take the Attack order, sorted by melee DPS.</BRW_AttackAnimalsDesc>
+  <BRW_AttackAnimalsNone>No attack animals on this map.</BRW_AttackAnimalsNone>
+  <BRW_AttackAnimalsSelectAll>Select all</BRW_AttackAnimalsSelectAll>
+  <BRW_AttackAnimalsDps>DPS {0}</BRW_AttackAnimalsDps>
+  <BRW_AttackAnimalsDowned>Downed</BRW_AttackAnimalsDowned>
+
 </LanguageData>

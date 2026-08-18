@@ -44,6 +44,9 @@ namespace BetterRimworlds.UpliftedAnimals
         private const float TicksPerHour = 2500f;
         private const float AnimalBerserkMtbDays = 2.5f / 24f;
         private const float HumanBerserkMtbDays = 9f / 24f;
+        // Vanilla Moving minForCapable is 0.15. ALZ-112 caps Moving at 0.35,
+        // so CapableOf/Downed is the wrong gate — rage when they can still walk.
+        private const float MinMovingForRage = 0.15f;
 
         // No Harmony: watch the tend job + wound tend timers. ALZ-112 itself
         // stays tendable=false so it never gets a tend cooldown.
@@ -370,7 +373,9 @@ namespace BetterRimworlds.UpliftedAnimals
             }
 
             this.MaybeApplyMedicineFromWoundTend();
+#if !RIMWORLD16
             this.MaybeStartBerserk();
+#endif
             this.CheckUpliftChance();
         }
 
@@ -384,6 +389,7 @@ namespace BetterRimworlds.UpliftedAnimals
             }
 
             this.MaybeApplyMedicineFromWoundTend();
+            this.MaybeStartBerserk(delta);
             this.CheckUpliftChance();
         }
 #endif
@@ -583,12 +589,17 @@ namespace BetterRimworlds.UpliftedAnimals
             return waysGe[need] * 100f / total;
         }
 
-        // Sleeping / bedded patients can still snap (forceWake). Downed
-        // or immobile pawns must not — a forced Berserk/Manhunter job on
-        // a 0-Moving pawn throws. Animals: Manhunter every 8–10 hours;
-        // otherwise short Berserk so they attack anything that moves.
-        // After the episode they go back to a hospital bed.
+        // Sleeping / bedded patients can still snap (forceWake). Below
+        // 15% Moving they cannot path — a forced Berserk/Manhunter job
+        // throws. Vanilla Downed is the wrong gate: ALZ-112 caps Moving
+        // at 35% and often marks them Downed in bed. Animals: Manhunter
+        // every 8–10 hours; otherwise short Berserk. After the episode
+        // they go back to a hospital bed.
+#if RIMWORLD16
+        private void MaybeStartBerserk(int delta)
+#else
         private void MaybeStartBerserk()
+#endif
         {
             if (this.pawn == null || this.pawn.Dead || this.pawn.mindState == null)
             {
@@ -600,7 +611,7 @@ namespace BetterRimworlds.UpliftedAnimals
                 return;
             }
 
-            if (this.pawn.Downed || ALZ112Medical.HasAdministerBill(this.pawn))
+            if (!this.CanRageOnMoving())
             {
                 this.RecoverRageIfAny();
                 return;
@@ -611,14 +622,11 @@ namespace BetterRimworlds.UpliftedAnimals
                 return;
             }
 
-            if (this.pawn.health?.capacities == null ||
-                !this.pawn.health.capacities.CanBeAwake ||
-                !this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving))
-            {
-                return;
-            }
-
+#if RIMWORLD16
+            if (!this.pawn.IsHashIntervalTick(60, delta))
+#else
             if (!this.pawn.IsHashIntervalTick(60))
+#endif
             {
                 return;
             }
@@ -650,6 +658,21 @@ namespace BetterRimworlds.UpliftedAnimals
             }
         }
 
+        private bool CanRageOnMoving()
+        {
+            if (this.pawn.health?.capacities == null)
+            {
+                return false;
+            }
+
+            if (!this.pawn.health.capacities.CanBeAwake)
+            {
+                return false;
+            }
+
+            return this.pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving) >= MinMovingForRage;
+        }
+
         private void StartRage(string defName, bool silent, float minHours, float maxHours)
         {
             MentalStateDef rage = DefDatabase<MentalStateDef>.GetNamedSilentFail(defName);
@@ -658,11 +681,15 @@ namespace BetterRimworlds.UpliftedAnimals
                 return;
             }
 
-            string reason = "MentalStateReason_Hediff".Translate(this.Label);
+            string reason = "MentalStateReason_Hediff".Translate(this.def.LabelCap);
             bool started;
 #if RIMWORLD15 || RIMWORLD16
             started = this.pawn.mindState.mentalStateHandler.TryStartMentalState(
-                rage, reason, forceWake: true, transitionSilently: silent);
+                rage,
+                reason,
+                forced: true,
+                forceWake: true,
+                transitionSilently: silent);
 #else
             started = this.pawn.mindState.mentalStateHandler.TryStartMentalState(
                 rage, reason, forceWake: true, causedByMood: false, otherPawn: null);

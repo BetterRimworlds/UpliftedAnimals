@@ -54,10 +54,13 @@ namespace BetterRimworlds.UpliftedAnimals
         private int lastTimesTendedTo = -1;
 
         // Incompatible / human: death-save fails 50% more often than the raw
-        // snake-eyes rate, and the 3d6 bonus grows half as fast.
+        // snake-eyes rate, and the Nd6 bonus grows half as fast.
+        // Compatible: 1d6 babies, 2d6 juveniles, 3d6 otherwise. Incompatible: 4d6.
+        // Success is raw + bonus >= diceCount * 6 (natural max).
         private const float IncompatibleLethalityFactor = 1.5f;
         private const int CompatibleUpliftBonusPerAttempts = 10;
         private const int IncompatibleUpliftBonusPerAttempts = 20;
+        private const int UpliftDieSides = 6;
 
         // Exposure is removed explicitly on success. Compatible species start
         // at 0% progress; a Severity<=0 check would delete the hediff on the
@@ -329,19 +332,15 @@ namespace BetterRimworlds.UpliftedAnimals
             get
             {
                 string severityString = $"{this.internalSeverity * 100f:F2}%";
+                int diceCount = this.GetUpliftDiceCount();
+                int threshold = diceCount * UpliftDieSides;
                 int upliftBonus = this.upliftAttempts / this.UpliftBonusDivisor;
-                int targetRoll = Math.Max(3, 18 - upliftBonus);
-
-                int[] successCounts =
-                {
-                    216, 216, 216, 216, 215, 212, 206, 196,
-                    181, 160, 135, 108, 81, 56, 35, 20, 10, 4, 1
-                };
-
-                float upliftChance = successCounts[targetRoll] / 216f * 100f;
+                int targetRoll = Math.Max(diceCount, threshold - upliftBonus);
+                float upliftChance = UpliftSuccessChancePercent(diceCount, targetRoll);
 
                 return $"ALZ-112 Exposure\n" +
                     $"  • Uplift Attempt #{this.upliftAttempts}\n" +
+                    $"  • Uplift Dice: {diceCount}d{UpliftDieSides} need {threshold}+\n" +
                     $"  • Uplift Bonus: +{upliftBonus}\n" +
                     $"  • Uplift Chance: {upliftChance:F2}%\n" +
                     $"  • Severity: {severityString}";
@@ -444,6 +443,145 @@ namespace BetterRimworlds.UpliftedAnimals
             this.IsCompatibleSpecies()
                 ? CompatibleUpliftBonusPerAttempts
                 : IncompatibleUpliftBonusPerAttempts;
+
+        private int GetUpliftDiceCount()
+        {
+            if (!this.IsCompatibleSpecies())
+            {
+                return 4;
+            }
+
+            return CompatibleLifeStageDiceCount(this.pawn);
+        }
+
+        private static int CompatibleLifeStageDiceCount(Pawn pawn)
+        {
+            LifeStageDef lifeStage = pawn?.ageTracker?.CurLifeStage;
+            if (lifeStage == null)
+            {
+                return 3;
+            }
+
+            if (LifeStageMatches(lifeStage, "Baby", "Newborn", "Larva", "Hatchling", "Chick"))
+            {
+                return 1;
+            }
+
+            if (LifeStageMatches(lifeStage, "Juvenile", "Child", "Toddler", "Immature"))
+            {
+                return 2;
+            }
+
+#if !(RIMWORLD12 || RIMWORLD13)
+            DevelopmentalStage stage = lifeStage.developmentalStage;
+            if ((stage & (DevelopmentalStage.Newborn | DevelopmentalStage.Baby)) != 0)
+            {
+                return 1;
+            }
+
+            if ((stage & DevelopmentalStage.Child) != 0)
+            {
+                return 2;
+            }
+#endif
+
+            var ages = pawn.RaceProps?.lifeStageAges;
+            if (ages != null && ages.Count >= 3 && pawn.ageTracker != null)
+            {
+                int index = pawn.ageTracker.CurLifeStageIndex;
+                if (index <= 0)
+                {
+                    return 1;
+                }
+
+                if (index == 1)
+                {
+                    return 2;
+                }
+            }
+
+            return 3;
+        }
+
+        private static bool LifeStageMatches(LifeStageDef lifeStage, params string[] tokens)
+        {
+            string defName = lifeStage.defName ?? string.Empty;
+            string label = lifeStage.label ?? string.Empty;
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                if (defName.IndexOf(tokens[i], StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+
+                if (label.IndexOf(tokens[i], StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // Ways to roll >= need on Nd6. Index is the needed sum.
+        private static readonly int[] UpliftWaysGe1d6 =
+        {
+            6, 6, 5, 4, 3, 2, 1
+        };
+
+        private static readonly int[] UpliftWaysGe2d6 =
+        {
+            36, 36, 36, 35, 33, 30, 26, 21, 15, 10, 6, 3, 1
+        };
+
+        private static readonly int[] UpliftWaysGe3d6 =
+        {
+            216, 216, 216, 216, 215, 212, 206, 196,
+            181, 160, 135, 108, 81, 56, 35, 20, 10, 4, 1
+        };
+
+        private static readonly int[] UpliftWaysGe4d6 =
+        {
+            1296, 1296, 1296, 1296, 1296, 1295, 1291, 1281, 1261, 1226,
+            1170, 1090, 986, 861, 721, 575, 435, 310, 206, 126, 70, 35, 15, 5, 1
+        };
+
+        private static float UpliftSuccessChancePercent(int diceCount, int need)
+        {
+            int[] waysGe;
+            int total;
+            switch (diceCount)
+            {
+                case 1:
+                    waysGe = UpliftWaysGe1d6;
+                    total = 6;
+                    break;
+                case 2:
+                    waysGe = UpliftWaysGe2d6;
+                    total = 36;
+                    break;
+                case 4:
+                    waysGe = UpliftWaysGe4d6;
+                    total = 1296;
+                    break;
+                default:
+                    waysGe = UpliftWaysGe3d6;
+                    total = 216;
+                    break;
+            }
+
+            if (need <= diceCount)
+            {
+                return 100f;
+            }
+
+            if (need >= waysGe.Length)
+            {
+                return 0f;
+            }
+
+            return waysGe[need] * 100f / total;
+        }
 
         // Sleeping / bedded patients can still snap (forceWake). Downed
         // or immobile pawns must not — a forced Berserk/Manhunter job on
@@ -811,30 +949,29 @@ namespace BetterRimworlds.UpliftedAnimals
                 return false;
             }
 
-            // If they are incompatible species, reroll the previous dice for proper odds.
-            if (this.deathMultiple < 7)
+            // Death dice are not the rewrite dice. Roll a fair Nd6 after surviving.
+            int diceCount = this.GetUpliftDiceCount();
+            int threshold = diceCount * UpliftDieSides;
+            dices.Clear();
+            for (int i = 0; i < diceCount; i++)
             {
-                dices[0] = Rand.RangeInclusive(1, 6);
-                dices[1] = Rand.RangeInclusive(1, 6);
+                dices.Add(Rand.RangeInclusive(1, UpliftDieSides));
             }
-
-            // Roll the uplifting dice.
-            dices.Add(Rand.RangeInclusive(1, 6));
 
             int rawRoll = dices.Sum();
             int upliftBonus = this.upliftAttempts / this.UpliftBonusDivisor;
             int adjustedRoll = rawRoll + upliftBonus;
 
-            upliftStatus = adjustedRoll >= 18 ? "Uplifted" : "Unchanged";
+            upliftStatus = adjustedRoll >= threshold ? "Uplifted" : "Unchanged";
 
             Log.Warning(
                 $"[Uplift] Uplift Attempt {this.upliftAttempts}: " +
-                $"{dices[0]}, {dices[1]}, {dices[2]} + {upliftBonus} = " +
+                $"{string.Join(", ", dices)} + {upliftBonus} = " +
                 $"{adjustedRoll} (raw {rawRoll}) = {upliftStatus}"
             );
 
             // Success chance improves with number of attempts, with no cap.
-            if (adjustedRoll >= 18)
+            if (adjustedRoll >= threshold)
             {
                 return this.DoUplifting();
             }

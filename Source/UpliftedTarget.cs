@@ -34,7 +34,7 @@ namespace BetterRimworlds.UpliftedAnimals
             attack.defaultDesc = "Order this animal to attack any pawn until they are downed. "
                 + "Colonists, animals, visitors, and enemies are all valid. "
                 + "The attack stops once the target is downed and will not finish them off.";
-            attack.icon = TexCommand.AttackMelee;
+            attack.icon = TexCommand.Attack;
             attack.action = BeginTargetingSelected;
 
             AcceptanceReport canAttack = CanIssueTarget(hunter);
@@ -161,9 +161,9 @@ namespace BetterRimworlds.UpliftedAnimals
             TargetingParameters rules)
         {
 #if RIMWORLD15 || RIMWORLD16
-            Find.Targeter.BeginTargeting(rules, whenClicked, lookFrom, null, TexCommand.AttackMelee, true);
+            Find.Targeter.BeginTargeting(rules, whenClicked, lookFrom, null, TexCommand.Attack, true);
 #else
-            Find.Targeter.BeginTargeting(rules, whenClicked, lookFrom, null, TexCommand.AttackMelee);
+            Find.Targeter.BeginTargeting(rules, whenClicked, lookFrom, null, TexCommand.Attack);
 #endif
         }
 

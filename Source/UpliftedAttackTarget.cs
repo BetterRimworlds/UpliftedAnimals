@@ -106,7 +106,7 @@ namespace BetterRimworlds.UpliftedAnimals
             Command_Action point = new Command_Action();
             point.defaultLabel = "BRW_AttackTarget".Translate();
             point.defaultDesc = "BRW_AttackTargetDesc".Translate();
-            point.icon = TexCommand.AttackMelee;
+            point.icon = TexCommand.Attack;
             point.action = PointFromSelectedAnimals;
 
             AcceptanceReport ready = ReadyToBePointed(animal);
@@ -144,7 +144,7 @@ namespace BetterRimworlds.UpliftedAnimals
             Command_Action point = new Command_Action();
             point.defaultLabel = "BRW_AttackTargetMaster".Translate() + " (" + waiting + ")";
             point.defaultDesc = "BRW_AttackTargetMasterDesc".Translate();
-            point.icon = TexCommand.AttackMelee;
+            point.icon = TexCommand.Attack;
             point.action = () => PointFromHandler(handler);
             yield return point;
         }

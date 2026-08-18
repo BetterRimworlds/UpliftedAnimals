@@ -51,6 +51,29 @@ namespace BetterRimworlds.UpliftedAnimals
             return pawn.health.hediffSet.HasHediff(BRW_HediffDefOf.ALZ112Uplifted);
         }
 
+        // Vanilla PawnGenerator skips PawnKindDef.startingHediffs on
+        // DevelopmentalStage.Newborn, so births and hatches land as
+        // Uplifted_* with no ALZ112Uplifted. Grant it after spawn.
+        public static void GiveUpliftedHediffIfNeeded(Pawn pawn)
+        {
+            if (pawn == null || pawn.Dead || pawn.health == null)
+            {
+                return;
+            }
+
+            if (!UpliftedNamer.IsUplifted(pawn.def) || BRW_HediffDefOf.ALZ112Uplifted == null)
+            {
+                return;
+            }
+
+            if (pawn.health.hediffSet.HasHediff(BRW_HediffDefOf.ALZ112Uplifted))
+            {
+                return;
+            }
+
+            pawn.health.AddHediff(BRW_HediffDefOf.ALZ112Uplifted);
+        }
+
         public static bool HasAdministerBill(Pawn pawn)
         {
             BillStack stack = pawn?.health?.surgeryBills;

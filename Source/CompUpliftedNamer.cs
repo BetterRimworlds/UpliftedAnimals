@@ -25,8 +25,9 @@ namespace BetterRimworlds.UpliftedAnimals
     }
 
     // Replaces the numeric "Uplifted raccoon 1" stamp with the same
-    // NameTriple style used at ALZ-112 success. Injected onto every
-    // Uplifted_* race in UpliftedSpawnBlocker.
+    // NameTriple style used at ALZ-112 success, and grants the
+    // ALZ-112 Uplifted hediff that newborns do not inherit.
+    // Injected onto every Uplifted_* race in UpliftedSpawnBlocker.
     public class CompUpliftedNamer : ThingComp
     {
         private bool tried;
@@ -85,6 +86,7 @@ namespace BetterRimworlds.UpliftedAnimals
                 return;
             }
 
+            ALZ112Medical.GiveUpliftedHediffIfNeeded(pawn);
             UpliftedNamer.GiveNameIfNeeded(pawn);
             if (!UpliftedNamer.NeedsName(pawn))
             {

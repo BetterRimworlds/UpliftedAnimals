@@ -94,6 +94,7 @@ namespace BetterRimworlds.UpliftedAnimals
             foreach (Pawn pawn in PawnsFinder.AllMapsWorldAndTemporary_Alive)
             {
                 GiveNameIfNeeded(pawn);
+                ALZ112Medical.GiveUpliftedHediffIfNeeded(pawn);
             }
         }
 

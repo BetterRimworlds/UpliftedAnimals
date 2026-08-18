@@ -17,7 +17,8 @@ namespace BetterRimworlds.UpliftedAnimals
 {
     // FillComponents auto-instantiates every GameComponent subclass.
     // Catches caravan births and already-spawned numeric names the
-    // race comp cannot see until the pawn is on a map.
+    // race comp cannot see until the pawn is on a map. Also grants
+    // ALZ112Uplifted that vanilla skips on Newborn generation.
     public class GameComponent_UpliftedNamer : GameComponent
     {
         private const int CheckIntervalTicks = 60;

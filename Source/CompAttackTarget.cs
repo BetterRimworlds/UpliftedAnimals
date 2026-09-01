@@ -116,7 +116,8 @@ namespace BetterRimworlds.UpliftedAnimals
             }
 
             Pawn pawn = this.parent as Pawn;
-            if (pawn?.playerSettings != null && this.GetAllowedArea(pawn) == null)
+            if (pawn?.playerSettings != null && this.GetAllowedArea(pawn) == null &&
+                (this.previousArea == null || this.previousArea.Map == pawn.Map))
             {
                 this.SetAllowedArea(pawn, this.previousArea);
             }

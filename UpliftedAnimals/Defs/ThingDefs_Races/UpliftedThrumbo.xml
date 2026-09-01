@@ -4,6 +4,11 @@
     <defName>Uplifted_Thrumbo</defName>
     <label>uplifted thrumbo</label>
     <description>Legends say that an old thrumbo is the wisest creature in the universe. Well, this Uplifted Thrumbo must be one of the smartest savants in the Galaxy.</description>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
     <statBases>
       <MoveSpeed>6.9</MoveSpeed>
       <MarketValue>4400</MarketValue>
@@ -185,5 +190,5 @@
       </li>
     </lifeStages>
   </PawnKindDef>
- 
+
 </Defs>

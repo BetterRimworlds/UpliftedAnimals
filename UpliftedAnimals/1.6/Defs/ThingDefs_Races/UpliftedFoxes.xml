@@ -13,7 +13,7 @@
   -->
   <ThingDef Name="ThingBaseUpliftedFox" ParentName="ThingBaseFox" Abstract="True">
     <statBases>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>220</MarketValue>
       <Wildness>0</Wildness>
       <ToxicEnvironmentResistance>0.9</ToxicEnvironmentResistance>
     </statBases>

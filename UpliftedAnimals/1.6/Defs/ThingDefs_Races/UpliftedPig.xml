@@ -9,7 +9,7 @@
     <statBases>
       <MoveSpeed>3.9</MoveSpeed>
       <ComfyTemperatureMin>-5</ComfyTemperatureMin>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>220</MarketValue>
       <FilthRate>8</FilthRate>
       <Wildness>0</Wildness>
       <ToxicEnvironmentResistance>0.9</ToxicEnvironmentResistance>

@@ -13,7 +13,7 @@
     </modExtensions>
     <statBases>
       <MoveSpeed>5.0</MoveSpeed>
-      <MarketValue>15000</MarketValue>
+      <MarketValue>495</MarketValue>
       <ComfyTemperatureMin>-40</ComfyTemperatureMin>
       <FilthRate>2</FilthRate>
       <ToxicEnvironmentResistance>0.95</ToxicEnvironmentResistance>

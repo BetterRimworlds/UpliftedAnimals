@@ -11,7 +11,7 @@
     </modExtensions>
     <statBases>
       <MoveSpeed>4.6</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>220</MarketValue>
       <ComfyTemperatureMin>-8</ComfyTemperatureMin>
       <ComfyTemperatureMax>50</ComfyTemperatureMax>
       <FilthRate>8</FilthRate>
@@ -191,7 +191,7 @@
     <description>An intelligent chicken uplifted by ALZ-112.</description>
     <statBases>
       <MoveSpeed>2.1</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>55</MarketValue>
       <LeatherAmount>0</LeatherAmount>
       <ComfyTemperatureMin>-10</ComfyTemperatureMin>
       <FilthRate>4</FilthRate>
@@ -390,7 +390,7 @@
     <description>An intelligent duck uplifted by ALZ-112.</description>
     <statBases>
       <MoveSpeed>2.1</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>66</MarketValue>
       <LeatherAmount>0</LeatherAmount>
       <ComfyTemperatureMin>-10</ComfyTemperatureMin>
       <FilthRate>4</FilthRate>
@@ -609,7 +609,7 @@
     <description>An intelligent, powerful emu uplifted by ALZ-112.</description>
     <statBases>
       <MoveSpeed>5.5</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>220</MarketValue>
       <ComfyTemperatureMin>-8</ComfyTemperatureMin>
       <ComfyTemperatureMax>50</ComfyTemperatureMax>
       <FilthRate>8</FilthRate>
@@ -788,7 +788,7 @@
     <description>An intelligent, terrifying goose uplifted by ALZ-112.</description>
     <statBases>
       <MoveSpeed>2.3</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>99</MarketValue>
       <LeatherAmount>36</LeatherAmount>
       <ComfyTemperatureMin>-10</ComfyTemperatureMin>
       <FilthRate>6</FilthRate>
@@ -991,7 +991,7 @@
     </modExtensions>
     <statBases>
       <MoveSpeed>6.0</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>275</MarketValue>
       <ComfyTemperatureMin>-8</ComfyTemperatureMin>
       <ComfyTemperatureMax>50</ComfyTemperatureMax>
       <FilthRate>8</FilthRate>
@@ -1187,7 +1187,7 @@
     <description>An intelligent turkey uplifted by ALZ-112.</description>
     <statBases>
       <MoveSpeed>3.6</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>110</MarketValue>
       <ComfyTemperatureMin>-8</ComfyTemperatureMin>
       <FilthRate>6</FilthRate>
       <Wildness>0</Wildness>

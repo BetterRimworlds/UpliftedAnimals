@@ -11,7 +11,7 @@
     </modExtensions>
     <statBases>
       <MoveSpeed>5.1</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>110</MarketValue>
       <ComfyTemperatureMin>-30</ComfyTemperatureMin>
       <Wildness>0</Wildness>
       <FilthRate>1</FilthRate>

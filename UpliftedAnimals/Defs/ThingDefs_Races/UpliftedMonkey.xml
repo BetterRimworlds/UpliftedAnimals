@@ -13,7 +13,7 @@
     </modExtensions>
     <statBases>
       <MoveSpeed>4.3</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>110</MarketValue>
       <ComfyTemperatureMin>-5</ComfyTemperatureMin>
       <ComfyTemperatureMax>50</ComfyTemperatureMax>
     </statBases>

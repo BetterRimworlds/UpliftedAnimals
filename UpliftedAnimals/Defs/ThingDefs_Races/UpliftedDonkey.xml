@@ -7,7 +7,7 @@
     <description>An intelligent, sturdy, and sentient donkey uplifted by ALZ-112. Its enhanced brain allows advanced training and complex work. Uplifted donkeys remain dependable riding and pack animals.</description>
     <statBases>
       <MoveSpeed>5.0</MoveSpeed>
-      <MarketValue>12000</MarketValue>
+      <MarketValue>352</MarketValue>
       <ComfyTemperatureMin>-25</ComfyTemperatureMin>
       <ComfyTemperatureMax>45</ComfyTemperatureMax>
     </statBases>

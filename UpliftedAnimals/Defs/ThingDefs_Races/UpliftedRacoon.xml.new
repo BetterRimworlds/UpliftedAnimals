@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ThingDef ParentName="AnimalThingBase">
     <defName>Uplifted_Raccoon</defName>
@@ -6,7 +6,7 @@
     <description>An intelligent, adventurous, and ferocious sentient Raccoon. Approximate IQ of 70.</description>
     <statBases>
       <MoveSpeed>5.1</MoveSpeed>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>110</MarketValue>
       <ComfyTemperatureMin>-30</ComfyTemperatureMin>
     </statBases>
     <uiIconScale>1.15</uiIconScale>

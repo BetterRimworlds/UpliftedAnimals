@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ThingDef ParentName="AnimalThingBase">
     <defName>Uplifted_Thrumbo</defName>
@@ -6,7 +6,7 @@
     <description>Legends say that an old thrumbo is the wisest creature in the universe. Well, this Uplifted Thrumbo must be one of the smartest savants in the Galaxy.</description>
     <statBases>
       <MoveSpeed>6.9</MoveSpeed>
-      <MarketValue>40000</MarketValue>
+      <MarketValue>4400</MarketValue>
       <ComfyTemperatureMin>-65</ComfyTemperatureMin>
       <ComfyTemperatureMax>50</ComfyTemperatureMax>
       <ArmorRating_Sharp>0.60</ArmorRating_Sharp>

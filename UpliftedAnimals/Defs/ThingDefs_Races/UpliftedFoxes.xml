@@ -3,7 +3,7 @@
 
   <ThingDef Name="ThingBaseUpliftedFox" ParentName="ThingBaseFox" Abstract="True">
     <statBases>
-      <MarketValue>10000</MarketValue>
+      <MarketValue>220</MarketValue>
     </statBases>
     <tradeability>Sellable</tradeability>
     <tradeTags Inherit="False">

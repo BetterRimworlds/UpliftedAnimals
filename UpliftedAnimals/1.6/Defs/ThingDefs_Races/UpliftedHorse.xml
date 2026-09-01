@@ -7,7 +7,7 @@
     <description>An intelligent, loyal, and sentient horse uplifted by ALZ-112. Its enhanced brain allows advanced training and complex work, while its reinforced immune system provides improved resistance to toxic environments. Uplifted horses remain excellent riding and pack animals.</description>
     <statBases>
       <MoveSpeed>5.8</MoveSpeed>
-      <MarketValue>15000</MarketValue>
+      <MarketValue>605</MarketValue>
       <ComfyTemperatureMin>-35</ComfyTemperatureMin>
       <ComfyTemperatureMax>45</ComfyTemperatureMax>
       <FilthRate>16</FilthRate>

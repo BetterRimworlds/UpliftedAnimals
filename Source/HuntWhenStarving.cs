@@ -25,14 +25,18 @@ namespace BetterRimworlds.UpliftedAnimals
     {
         public const string UpliftedWargDefName = "Uplifted_Warg";
 
-        // Re-run the whole-map prey scan at most this often. The scan costs a
-        // pathfinding reachability check per spawned pawn, so we must not do it
-        // on every think tick on crowded maps.
+        // The two whole-map scans below cost a pathfinding reachability check
+        // per candidate, so cache their results and re-run them at most once
+        // per second instead of on every think tick on crowded maps.
         private const int SearchIntervalTicks = 60;
 
         // Cached result of the last prey scan, reused while it stays valid.
         private Pawn cachedPrey;
         private int nextPreySearchTick;
+
+        // Cached result of the last edible-food scan, reused while it stays valid.
+        private Thing cachedFood;
+        private int nextFoodSearchTick;
 
         // < 0 means use the race's FoodLevelPercentageWantEat.
         public float maxFoodLevelPercentage = -1f;
@@ -45,6 +49,8 @@ namespace BetterRimworlds.UpliftedAnimals
             // cooldowns with the copy (each pawn gets its own fresh caches).
             copy.cachedPrey = null;
             copy.nextPreySearchTick = 0;
+            copy.cachedFood = null;
+            copy.nextFoodSearchTick = 0;
             return copy;
         }
 
@@ -124,34 +130,56 @@ namespace BetterRimworlds.UpliftedAnimals
 
         private bool HasEdibleFood(Pawn pawn)
         {
+            if (Find.TickManager.TicksGame < this.nextFoodSearchTick)
+            {
+                // Within the cooldown: reuse the cached food source while it is
+                // still edible; otherwise drop the cooldown and rescan.
+                if (this.cachedFood != null && IsEdibleFood(pawn, this.cachedFood))
+                {
+                    return true;
+                }
+
+                this.cachedFood = null;
+                this.nextFoodSearchTick = 0;
+            }
+
             List<Thing> foods = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.FoodSourceNotPlantOrTree);
             for (int i = 0; i < foods.Count; i++)
             {
                 Thing food = foods[i];
-                if (food is Pawn || !food.IngestibleNow)
+                if (!IsEdibleFood(pawn, food))
                 {
                     continue;
                 }
 
-                if (!pawn.RaceProps.CanEverEat(food))
-                {
-                    continue;
-                }
-
-                if (food.IsForbidden(pawn))
-                {
-                    continue;
-                }
-
-                if (!pawn.CanReach(food, PathEndMode.ClosestTouch, Danger.Deadly))
-                {
-                    continue;
-                }
-
+                this.cachedFood = food;
+                this.nextFoodSearchTick = Find.TickManager.TicksGame + SearchIntervalTicks;
                 return true;
             }
 
+            this.cachedFood = null;
+            this.nextFoodSearchTick = Find.TickManager.TicksGame + SearchIntervalTicks;
             return false;
+        }
+
+        private static bool IsEdibleFood(Pawn pawn, Thing food)
+        {
+            if (food == null || !food.Spawned || food is Pawn || !food.IngestibleNow)
+            {
+                return false;
+            }
+
+            if (!pawn.RaceProps.CanEverEat(food))
+            {
+                return false;
+            }
+
+            if (food.IsForbidden(pawn))
+            {
+                return false;
+            }
+
+            return pawn.CanReach(food, PathEndMode.ClosestTouch, Danger.Deadly);
         }
 
         private Pawn FindPrey(Pawn hunter)

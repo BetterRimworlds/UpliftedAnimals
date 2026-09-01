@@ -74,4 +74,4 @@
 | Spelopede          | No       | No                      |
 | Timber wolf        | No       | No                      |
 
-**10 / 61** have uplifted races. Royalty added no animals.
+**17 / 61** have uplifted races. Royalty added no animals.

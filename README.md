@@ -39,7 +39,7 @@ As per the dictates of The High Evolutionary, HopeSeekr, ALZ-112 has been perfec
 * Raccoons
 * Thrumbos
 
-For compatible animals, the chance of death is greatly diminished to just about 1 out of 81 odds.
+For compatible animals, the chance of death is greatly diminished to just about 1 out of 36 odds.
 
 Each animal will receive the following enhancements:
 
@@ -60,8 +60,8 @@ Each animal will receive the following enhancements:
 
 ## Incompatible Animals
 
-For incompatible animals and Humans, the chance of death is randomly decided, anywhere from 100% instant death
-to 6.5% (1 out of 15), with an average distribution of 40% Lethality.
+For incompatible animals and Humans, the death dice are rolled once per dose and stay with the pawn: anywhere
+from 37.5% down to 9.4% Lethality per attempt, with an average distribution of about 21%.
 
 Each animal will receive the following enhancements:
 
@@ -76,10 +76,10 @@ Severity on the Health tab is the death bar. It kills at 100%.
 
 ALZ-112 is not the Simian Flu. ALZ-113 is. So the scale is:
 
-| Drug | What it does to a human | How it fails | Extrapolated deaths |
+| Drug | What it does to a human | Enhancements | Total Fatality Rate |
 |---|---|---|---|
-| **ALZ-112** | Rewrite toward Uplifted: ~150% consciousness, still human | Immune clearance, brain swelling, or the incompatible dice filling the bar | **~25%** |
-| **ALZ-113** | Full overwrite (Ascended / Atlantean on the right subjects; wild-man collapse on the wrong ones) | Hemorrhagic Simian Flu | **~99%** |
+| **ALZ-112** | Rewrite toward Uplifted: ~150% consciousness, still human | Greatly enhanced immunity and healing of all brain injuries. | **~27%**/ |
+| **ALZ-113** | Full overwrite (Ascended / Atlantean on the right subjects; wild-man collapse on the wrong ones) | Death | **~99%** |
 
 That is case fatality of a dose, not a planet-wide pandemic. 112 is administered. 113 is the plague. Untreated human 112 exposure on the current dice lands at about **27%** dead and **73%** Uplifted, which is the movie ballpark for 112.
 

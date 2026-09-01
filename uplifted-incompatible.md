@@ -48,7 +48,7 @@ The bioactive stage is the same for every species:
 
 | Effect | Value |
 |---|---|
-| Consciousness | −50% (awake; downed only below 30%) |
+| Consciousness | −50% |
 | Sight | −90% |
 | Moving | `setMax` 35% so they can still walk to a bed |
 | Hunger rate offset | +5 |
@@ -57,7 +57,7 @@ The bioactive stage is the same for every species:
 | Vomit | MTB 1.5 days |
 | Sick thought | yes (humans feel/act sick) |
 | Medical rest | they always seek a hospital / animal bed and stay there (administer bills need `InBed`) |
-| Rage | Animals: Manhunter every 8–10 hours (hunt humanlikes); otherwise short Berserk (~every 2.5 hours, attack any pawn that moves). Humans: Berserk every ~9 hours. Downed / waiting for the administer bill cancels rage. After an episode they return to a hospital bed. |
+| Rage | Animals: Manhunter every 8–10 hours (hunt humanlikes); otherwise short Berserk (~every 2.5 hours, attack any pawn that moves). Humans: Berserk every ~9 hours. Rage requires `CanBeAwake` and Moving ≥ 0.15. After an episode they return to a hospital bed. |
 | Life-threatening | yes (doctors treat it as an emergency) |
 
 Vanilla `lethalSeverity` is off. The hediff never kills by crossing a vanilla
@@ -95,18 +95,16 @@ or not severity moves.
                yes                 no
                 |                   |
                 v                   v
-     severity += increment     REROLL first two
-     (never a full bar)        as 1d6 + 1d6
+     severity += increment     ROLL a fair 4d6
                 |                   |
                 v                   v
-        severity >= 100%?    + third 1d6
+        severity >= 100%?    raw = sum of 4d6
            /         \              |
          yes          no            v
-          |            |     raw = d1+d2+d3
-          v            v     adj = raw + floor(N/10)
+          |            |     adj = raw + floor(attempts/20)
         KILL      wait 90m          |
-        (done)    (no 3d6           v
-                   this cycle)  adj >= 18 ?
+        (done)    (no 4d6           v
+                   this cycle)  adj >= 24 ?
                                    /    \
                                  yes     no
                                   |       |
@@ -114,7 +112,7 @@ or not severity moves.
                               SUCCESS   wait 90m
 ```
 
-Snake eyes **skips** the uplift 3d6 for that cycle. A death tick is not
+Snake eyes **skips** the uplift 4d6 for that cycle. A death tick is not
 also a rewrite tick.
 
 Incompatible death-save fails are **1.5×** the raw snake-eyes rate: if
@@ -151,24 +149,24 @@ when it reaches 100%.
 ## Uplift roll (after a survived death save)
 
 Incompatible pawns do **not** keep the small death dice for the rewrite.
-They throw them away and roll a fair **3d6**, then add
+They throw them away and roll a fair **4d6**, then add
 `floor(Uplift Attempt # / 20)` with no cap. Compatible animals still use
 `/ 10`; the slower bonus is what doubles incompatible time-to-uplift.
 
-Need **18+** after the bonus.
+Need **24+** after the bonus.
 
 ```
-  3d6 + bonus   (incompatible: +1 per 20 attempts)
+  4d6 + bonus   (incompatible: +1 per 20 attempts)
   -----------
    attempts    bonus    need on the dice    ~P(success)
-        0        +0     18                  1/216
-       20        +1     17                  4/216
-       40        +2     16                 10/216
+        0        +0     24                  1/1296
+       20        +1     23                  5/1296
+       40        +2     22                 15/1296
        ...
-      300       +15      3                  ~100%
+      460       +23      1                  100%
 ```
 
-The health tab **Uplift Chance** is that 3d6 probability, not the death
+The health tab **Uplift Chance** is that 4d6 probability, not the death
 save.
 
 ## Success
@@ -210,17 +208,18 @@ by this path.
 ```
   ALZ-112 Exposure
     • Uplift Attempt #42     attempt count (every 90 min)
+    • Uplift Dice: 4d6 need 24+
     • Uplift Bonus: +2       floor(42/20)
-    • Uplift Chance: 4.63%   P(3d6 + 2 >= 18)
+    • Uplift Chance: 1.16%   P(4d6 + 2 >= 24)
     • Severity: 37.50%       death bar; kill at 100%
 ```
 
 **Severity** is accumulated death-save fail progress. **Uplift Chance**
-ignores the death save (a fail never rolls 3d6).
+ignores the death save (a fail never rolls 4d6).
 
 ## Humans vs other incompatible animals
 
 Same clock, same dice, same 25% start, same kill-at-100% rule. The only
-differences after a 18+ are naming, race (humans stay human), and the
+differences after a 24+ are naming, race (humans stay human), and the
 letter / reload dialog.
 ```

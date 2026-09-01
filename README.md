@@ -39,7 +39,7 @@ As per the dictates of The High Evolutionary, HopeSeekr, ALZ-112 has been perfec
 * Raccoons
 * Thrumbos
 
-For compatible animals, the chance of death is greatly diminished to just about 1 out of 81 odds.
+For compatible animals, the chance of death is greatly diminished to just about 1 out of 36 odds.
 
 Each animal will receive the following enhancements:
 
@@ -60,8 +60,8 @@ Each animal will receive the following enhancements:
 
 ## Incompatible Animals
 
-For incompatible animals and Humans, the chance of death is randomly decided, anywhere from 100% instant death
-to 6.5% (1 out of 15), with an average distribution of 40% Lethality.
+For incompatible animals and Humans, the death dice are rolled once per dose and stay with the pawn: anywhere
+from 37.5% down to 9.4% Lethality per attempt, with an average distribution of about 21%.
 
 Each animal will receive the following enhancements:
 
@@ -70,7 +70,18 @@ Each animal will receive the following enhancements:
 * Ability to Rescue (if big enough).
 * Very, very slim chance of Full Uplifting (e.g., become a Colonist in your colony).
 
-You can see the Lethality Odds of any exposed creature directly in the Health tab.
+Severity on the Health tab is the death bar. It kills at 100%.
+
+## Lethality
+
+ALZ-112 is not the Simian Flu. ALZ-113 is. So the scale is:
+
+| Drug | What it does to a human | Enhancements | Total Fatality Rate |
+|---|---|---|---|
+| **ALZ-112** | Rewrite toward Uplifted: ~150% consciousness, still human | Greatly enhanced immunity and healing of all brain injuries. | **~27%**/ |
+| **ALZ-113** | Full overwrite (Ascended / Atlantean on the right subjects; wild-man collapse on the wrong ones) | Death | **~99%** |
+
+That is case fatality of a dose, not a planet-wide pandemic. 112 is administered. 113 is the plague. Untreated human 112 exposure on the current dice lands at about **27%** dead and **73%** Uplifted, which is the movie ballpark for 112.
 
 ## Humans
 
@@ -100,6 +111,41 @@ Otherwise, the main symptom of Uplifting Psychosis is that the Pawn will just st
 never sleep, never eat, and be unrescuable and unfeedable and eventually die.
 
 ## Change Log
+
+**v2.0.0: 2026-09-02**
+
+* **[2026-09-01 18:37:39 EEST]** Thrumbos can now also attack.
+* **[2026-09-01 17:21:33 EEST]** Fixed: Avoid cross-map allowed areas for Attack Mode.
+* **[2026-09-01 16:22:25 EEST]** Stopped mixed Attack orders from sending non-predator animals.
+* **[2026-09-01 15:55:20 EEST]** Cached the edible-food scan so it stops pathfinding on every think tick.
+* **[2026-09-01 15:55:09 EEST]** Cached the whole-map prey scan so it stops pathfinding on every think tick.
+* **[2026-09-01 15:24:18 EEST]** Shifted uplifted costs to 110% baseline.
+* **[2026-08-18 18:54:11 EEST]** Switched animal attack gizmos from the melee icon to TexCommand.Attack.
+* **[2026-08-18 18:54:02 EEST]** Let ALZ-112 patients rage when they can still walk despite being Downed.
+* **[2026-08-18 18:53:57 EEST]** Scaled ALZ-112 uplift dice by life stage and species compatibility.
+* **[2026-08-18 18:53:53 EEST]** Granted ALZ-112 Uplifted to newborns that vanilla generation skips.
+* **[2026-08-18 18:53:25 EEST]** Added a colony attack-animals HUD and selectable DPS list.
+* **[2026-08-16 17:11:00 EEST]** Fixed ALZ-112 tend detection and added treatment feedback messages.
+* **[2026-08-16 16:49:18 EEST]** Made already-Uplifted pawns immune to a second ALZ-112 dose.
+* **[2026-08-16 05:27:13 EEST]** Rewrote ALZ-112 exposure dice, death bar, and berserk rage.
+* **[2026-08-16 05:55:34 EEST]** Added self-defense AI so colony uplifted animals fight instead of wandering.
+* **[2026-08-15 09:09:37 EEST]** Let combat-capable uplifted animals be ordered to attack a pawn until they are downed.
+* **[2026-08-15 01:22:28 EEST]** Added a Core animal uplift status tracker.
+* **[2026-08-15 01:22:28 EEST]** Documented how to sign commits from an agent shell.
+* **[2026-08-15 01:22:24 EEST]** Hid Slaughter and Release to Wild on selected non-bird uplifted animals.
+* **[2026-08-15 01:22:08 EEST]** Gave colony uplifted animals proper names instead of numbered labels.
+* **[2026-08-15 01:21:55 EEST]** Made starving uplifted wargs hunt instead of starving.
+* **[2026-08-14 17:09:24 EEST]** Added completed uplifted bird races with vanilla stats, graphics, and fertilized eggs.
+* **[2026-08-14 16:45:06 EEST]** Stopped uplifted herbivore animals from eating human meals.
+* **[2026-08-14 15:18:36 EEST]** Stopped plant-eating uplifted animals from eating farm crops.
+* **[2026-08-14 14:48:25 EEST]** Made uplifted offspring inherit the race and fixed ALZ-112 dose administration.
+* **[2026-08-14 14:28:13 EEST]** Uplifted Animals can't be bought but can be sold.
+* **[2026-08-14 14:21:19 EEST]** Stopped uplifted animals from spawning or wandering onto the map.
+* **[2026-08-14 13:07:32 EEST]** Added a multi-version watch build script.
+* **[2026-08-14 13:07:31 EEST]** Stopped uplifted animals from roaming off the map.
+* **[2026-08-14 13:07:31 EEST]** Show ALZ-112 odds on the hediff label and harden conversion.
+* **[2026-08-14 13:07:31 EEST]** Added RimWorld 1.6 compatible races and drug defs.
+* **[2026-08-14 13:07:31 EEST]** Added the uplifted horse, donkey, pig, fox, monkey, and warg races.
 
 **v1.2.0: 2026-08-14**
 

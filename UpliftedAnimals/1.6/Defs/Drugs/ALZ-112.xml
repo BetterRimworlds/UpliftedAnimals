@@ -34,6 +34,7 @@
 				<addictiveness>0</addictiveness>
 				<needLevelOffset>0</needLevelOffset>
 				<listOrder>1011</listOrder>
+				<teetotalerCanConsume>true</teetotalerCanConsume>
 			</li>
 		</comps>
 		<tradeTags>
@@ -47,6 +48,7 @@
 		<label>ALZ-112</label>
 		<addictionHediff>ALZ112Exposure</addictionHediff>
 		<canBinge>false</canBinge>
+		<canBeAddicted>false</canBeAddicted>
 	</ChemicalDef>
 
 	<HediffDef>
@@ -58,6 +60,7 @@
 		<everCurableByItem>true</everCurableByItem>
 		<maxSeverity>1.0</maxSeverity>
 		<lethalSeverity>-1</lethalSeverity>
+		<alwaysShowSeverity>true</alwaysShowSeverity>
 		<tendable>false</tendable>
 		<isBad>true</isBad>
 		<makesSickThought>true</makesSickThought>
@@ -70,6 +73,7 @@
 			     vanilla ShouldSeekMedicalRest treats them as sick (feed /
 			     keep-lying-down / hospital AI). Hidden from the health tab. -->
 			<li Class="HediffCompProperties_Immunizable">
+				<hidden>true</hidden>
 				<immunityPerDaySick>0.0001</immunityPerDaySick>
 				<immunityPerDayNotSick>0.0001</immunityPerDayNotSick>
 				<severityPerDayNotImmune>0</severityPerDayNotImmune>

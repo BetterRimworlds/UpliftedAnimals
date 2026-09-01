@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Uplifted_Warg only. The job giver no-ops for every other race,
+       including vanilla wargs. Scans the whole map and ignores allowed areas. -->
+  <ThinkTreeDef>
+    <defName>BRW_HuntWhenStarving</defName>
+    <insertTag>Animal_PreMain</insertTag>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>SatisfyingNeeds</tagToGive>
+          <subNodes>
+            <li Class="BetterRimworlds.UpliftedAnimals.HuntWhenStarving" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+</Defs>

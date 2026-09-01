@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <ThingDef ParentName="AnimalThingBase">
     <defName>Uplifted_Raccoon</defName>
@@ -13,6 +13,9 @@
       <MoveSpeed>5.1</MoveSpeed>
       <MarketValue>110</MarketValue>
       <ComfyTemperatureMin>-30</ComfyTemperatureMin>
+      <Wildness>0</Wildness>
+      <FilthRate>1</FilthRate>
+      <ToxicEnvironmentResistance>0.9</ToxicEnvironmentResistance>
     </statBases>
     <uiIconScale>1.15</uiIconScale>
     <tools>
@@ -73,17 +76,22 @@
         <li>Plant_Hops</li>
         <li>Plant_Smokeleaf</li>
         <li>Plant_Psychoid</li>
+        <li>Plant_Tinctoria</li>
         <li>MealSimple</li>
         <li>MealFine</li>
+        <li>MealFine_Veg</li>
+        <li>MealFine_Meat</li>
         <li>MealLavish</li>
+        <li>MealLavish_Veg</li>
+        <li>MealLavish_Meat</li>
         <li>MealNutrientPaste</li>
         <li>MealSurvivalPack</li>
         <li>Pemmican</li>
       </willNeverEat>
       <leatherDef>Leather_Light</leatherDef>
       <petness>1</petness>
-      <wildness>0</wildness>
       <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
       <trainability>Advanced</trainability>
       <mateMtbHours>8</mateMtbHours>
       <gestationPeriodDays>36</gestationPeriodDays>

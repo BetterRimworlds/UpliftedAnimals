@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Player-ordered Attack for animals with directedAttack. Stops when the target is downed. -->
+  <JobDef>
+    <defName>BRW_UpliftedTarget</defName>
+    <driverClass>BetterRimworlds.UpliftedAnimals.JobDriver_UpliftedTarget</driverClass>
+    <reportString>attacking TargetA until downed.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <neverFleeFromEnemies>true</neverFleeFromEnemies>
+    <collideWithPawns>true</collideWithPawns>
+  </JobDef>
+
+</Defs>

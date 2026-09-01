@@ -1,0 +1,231 @@
+<!-- ==== Defs/ThingDefs_Races/UpliftedFoxes.xml ==== -->
+<Defs>
+
+  <!--
+    ALZ-112 uplifted fox base.
+
+    Design notes:
+    - Vanilla foxes are already baseBodySize 0.55, so no hauling-size correction is required.
+    - Advanced trainability restores Haul/Rescue-style utility.
+    - Hunger is increased because uplifted brains require more metabolic energy.
+    - ToxicEnvironmentResistance is improved by ALZ-112 enhanced immune function.
+    - Wildness is set to 0 because these are created/supported uplifted animals, not normal wild foxes.
+  -->
+  <ThingDef Name="ThingBaseUpliftedFox" ParentName="ThingBaseFox" Abstract="True">
+    <statBases>
+      <MarketValue>220</MarketValue>
+      <Wildness>0</Wildness>
+      <ToxicEnvironmentResistance>0.9</ToxicEnvironmentResistance>
+    </statBases>
+    <tradeability>Sellable</tradeability>
+    <tradeTags Inherit="False">
+      <li>AnimalExotic</li>
+    </tradeTags>
+    <modExtensions>
+      <li Class="BetterRimworlds.UpliftedAnimals.DirectedAttack">
+        <directedAttack>true</directedAttack>
+      </li>
+    </modExtensions>
+    <race>
+      <petness>1</petness>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
+      <neverIncludeInQuests>true</neverIncludeInQuests>
+      <baseHungerRate>0.16</baseHungerRate>
+      <trainability>Advanced</trainability>
+      <specialTrainables>
+        <li>AttackTarget</li>
+      </specialTrainables>
+      <lifeExpectancy>35</lifeExpectancy>
+      <!-- Inherit="False" replaces ThingBaseFox's 3 stages instead of appending them (6 vs 3 PawnKind mismatch). -->
+      <lifeStageAges Inherit="False">
+        <li>
+          <def>AnimalBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>AnimalJuvenile</def>
+          <minAge>2</minAge>
+        </li>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>4</minAge>
+        </li>
+      </lifeStageAges>
+    </race>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBaseFox" Name="AnimalKindBaseUpliftedFox" Abstract="True">
+    <combatPower>55</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
+    <ecoSystemWeight>0.05</ecoSystemWeight>
+  </PawnKindDef>
+
+
+  <!--========================== Uplifted fennec fox ========================-->
+
+  <ThingDef ParentName="ThingBaseUpliftedFox">
+    <defName>Uplifted_Fox_Fennec</defName>
+    <label>uplifted fennec fox</label>
+    <description>An intelligent, adventurous, and sentient fennec fox uplifted by ALZ-112. Its enhanced brain gives it unusual trainability and problem-solving ability, while its reinforced immune system provides improved resistance to toxic environments.</description>
+    <statBases>
+      <ComfyTemperatureMin>-30</ComfyTemperatureMin>
+    </statBases>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBaseUpliftedFox">
+    <defName>Uplifted_Fox_Fennec</defName>
+    <label>uplifted fennec fox</label>
+    <labelFemale>uplifted fennec vixen</labelFemale>
+    <race>Uplifted_Fox_Fennec</race>
+    <lifeStages>
+      <li>
+        <label>uplifted fennec fox puppy</label>
+        <labelFemale>uplifted fennec vixen puppy</labelFemale>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Fennec/Fox_Fennec</texPath>
+          <drawSize>0.9</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Fennec/Dessicated_Fox_Fennec</texPath>
+          <drawSize>0.9</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Fennec/Fox_Fennec</texPath>
+          <drawSize>1.2</drawSize>
+          <shadowData>
+            <volume>(0.25, 0.3, 0.25)</volume>
+            <offset>(0,0,-0.15)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Fennec/Dessicated_Fox_Fennec</texPath>
+          <drawSize>1.2</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Fennec/Fox_Fennec</texPath>
+          <drawSize>1.45</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Fennec/Dessicated_Fox_Fennec</texPath>
+          <drawSize>1.45</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+
+  <!--========================== Uplifted red fox ========================-->
+
+  <ThingDef ParentName="ThingBaseUpliftedFox">
+    <defName>Uplifted_Fox_Red</defName>
+    <label>uplifted red fox</label>
+    <description>An intelligent, adventurous, and sentient red fox uplifted by ALZ-112. Its enhanced brain gives it unusual trainability and problem-solving ability, while its reinforced immune system provides improved resistance to toxic environments.</description>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBaseUpliftedFox">
+    <defName>Uplifted_Fox_Red</defName>
+    <label>uplifted red fox</label>
+    <labelFemale>uplifted red vixen</labelFemale>
+    <race>Uplifted_Fox_Red</race>
+    <lifeStages>
+      <li>
+        <label>uplifted red fox puppy</label>
+        <labelFemale>uplifted red vixen puppy</labelFemale>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Red/Fox_Red</texPath>
+          <drawSize>1.0</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Red/Dessicated_Fox_Red</texPath>
+          <drawSize>1.0</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Red/Fox_Red</texPath>
+          <drawSize>1.2</drawSize>
+          <shadowData>
+            <volume>(0.25, 0.3, 0.25)</volume>
+            <offset>(0,0,-0.15)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Red/Dessicated_Fox_Red</texPath>
+          <drawSize>1.2</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Red/Fox_Red</texPath>
+          <drawSize>1.68</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Red/Dessicated_Fox_Red</texPath>
+          <drawSize>1.68</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+
+  <!--========================== Uplifted arctic fox ========================-->
+
+  <ThingDef ParentName="ThingBaseUpliftedFox">
+    <defName>Uplifted_Fox_Arctic</defName>
+    <label>uplifted arctic fox</label>
+    <description>An intelligent, adventurous, and sentient arctic fox uplifted by ALZ-112. Its enhanced brain gives it unusual trainability and problem-solving ability, while its reinforced immune system provides improved resistance to toxic environments.</description>
+    <statBases>
+      <ComfyTemperatureMin>-50</ComfyTemperatureMin>
+    </statBases>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBaseUpliftedFox">
+    <defName>Uplifted_Fox_Arctic</defName>
+    <label>uplifted arctic fox</label>
+    <labelFemale>uplifted arctic vixen</labelFemale>
+    <race>Uplifted_Fox_Arctic</race>
+    <lifeStages>
+      <li>
+        <label>uplifted arctic fox puppy</label>
+        <labelFemale>uplifted arctic vixen puppy</labelFemale>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Arctic/Fox_Arctic</texPath>
+          <drawSize>1.0</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Arctic/Dessicated_Fox_Arctic</texPath>
+          <drawSize>1.0</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Arctic/Fox_Arctic</texPath>
+          <drawSize>1.2</drawSize>
+          <shadowData>
+            <volume>(0.25, 0.3, 0.25)</volume>
+            <offset>(0,0,-0.15)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Arctic/Dessicated_Fox_Arctic</texPath>
+          <drawSize>1.2</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Arctic/Fox_Arctic</texPath>
+          <drawSize>1.75</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Fox_Arctic/Dessicated_Fox_Arctic</texPath>
+          <drawSize>1.75</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+</Defs>

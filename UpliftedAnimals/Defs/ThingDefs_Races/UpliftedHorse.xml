@@ -1,0 +1,185 @@
+<!-- ==== Defs/ThingDefs_Races/UpliftedHorse.xml ==== -->
+<Defs>
+
+  <ThingDef ParentName="AnimalThingBase">
+    <defName>Uplifted_Horse</defName>
+    <label>uplifted horse</label>
+    <description>An intelligent, loyal, and sentient horse uplifted by ALZ-112. Its enhanced brain allows advanced training and complex work. Uplifted horses remain excellent riding and pack animals.</description>
+    <statBases>
+      <MoveSpeed>5.8</MoveSpeed>
+      <MarketValue>605</MarketValue>
+      <ComfyTemperatureMin>-35</ComfyTemperatureMin>
+      <ComfyTemperatureMax>45</ComfyTemperatureMax>
+    </statBases>
+    <uiIconScale>1.1</uiIconScale>
+    <race>
+      <herdAnimal>true</herdAnimal>
+      <herdMigrationAllowed>false</herdMigrationAllowed>
+      <body>QuadrupedAnimalWithHooves</body>
+      <baseBodySize>2.4</baseBodySize>
+      <baseHealthScale>1.75</baseHealthScale>
+      <baseHungerRate>0.856</baseHungerRate>
+      <foodType>VegetarianRoughAnimal</foodType>
+      <willNeverEat>
+        <li>Plant_Rice</li>
+        <li>Plant_Potato</li>
+        <li>Plant_Corn</li>
+        <li>Plant_Strawberry</li>
+        <li>Plant_Haygrass</li>
+        <li>Plant_Cotton</li>
+        <li>Plant_Devilstrand</li>
+        <li>Plant_Healroot</li>
+        <li>Plant_Hops</li>
+        <li>Plant_Smokeleaf</li>
+        <li>Plant_Psychoid</li>
+        <li>MealSimple</li>
+        <li>MealFine</li>
+        <li>MealLavish</li>
+        <li>MealNutrientPaste</li>
+        <li>MealSurvivalPack</li>
+        <li>Pemmican</li>
+      </willNeverEat>
+      <leatherDef>Leather_Plain</leatherDef>
+      <gestationPeriodDays>6.66</gestationPeriodDays>
+      <wildness>0</wildness>
+      <petness>1</petness>
+      <trainability>Advanced</trainability>
+      <meatLabel>horse meat</meatLabel>
+      <packAnimal>true</packAnimal>
+      <lifeExpectancy>50</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>AnimalBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>AnimalJuvenile</def>
+          <minAge>2</minAge>
+        </li>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>4</minAge>
+          <soundWounded>Pawn_Horse_Wounded</soundWounded>
+          <soundDeath>Pawn_Horse_Death</soundDeath>
+          <soundCall>Pawn_Horse_Call</soundCall>
+          <soundAngry>Pawn_Horse_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+    </race>
+    <tradeability>Sellable</tradeability>
+    <tradeTags>
+      <li>AnimalExotic</li>
+    </tradeTags>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2.9</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+      <li>
+        <label>left hoof</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>right hoof</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.5</chanceFactor>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>Uplifted_Horse</defName>
+    <label>uplifted horse</label>
+    <labelMale>uplifted stallion</labelMale>
+    <labelFemale>uplifted mare</labelFemale>
+    <race>Uplifted_Horse</race>
+    <combatPower>100</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <wildGroupSize>1~2</wildGroupSize>
+    <alternateGraphicChance>0.8</alternateGraphicChance>
+    <alternateGraphics>
+      <li><texPath>Things/Pawn/Animal/Horse/Horse1</texPath></li>
+      <li><texPath>Things/Pawn/Animal/Horse/Horse2</texPath></li>
+      <li><texPath>Things/Pawn/Animal/Horse/Horse3</texPath></li>
+      <li><texPath>Things/Pawn/Animal/Horse/Horse4</texPath></li>
+      <li><texPath>Things/Pawn/Animal/Horse/Horse5</texPath></li>
+      <li><texPath>Things/Pawn/Animal/Horse/Horse6</texPath></li>
+    </alternateGraphics>
+    <lifeStages>
+      <li>
+        <label>uplifted foal</label>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Horse/Horse</texPath>
+          <drawSize>1.3</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.3, 0.3)</volume>
+            <offset>(0,0,-0.2)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+          <drawSize>1.3</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Horse/Horse</texPath>
+          <drawSize>1.8</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.45, 0.45)</volume>
+            <offset>(0,0,-0.25)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+          <drawSize>1.8</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Horse/Horse</texPath>
+          <drawSize>2.1</drawSize>
+          <shadowData>
+            <volume>(0.8, 0.6, 0.6)</volume>
+            <offset>(0,0,-0.3)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+          <drawSize>2.1</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+</Defs>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ALZ-112 patients and anyone billed for Administer ALZ-112.
+       Higher insertPriority than UpliftedDefendSelf so they rest, not fight. -->
+  <ThinkTreeDef>
+    <defName>BRW_ALZ112GoToBed_Animal</defName>
+    <insertTag>Animal_PreMain</insertTag>
+    <insertPriority>200</insertPriority>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>RestingForMedicalReasons</tagToGive>
+          <subNodes>
+            <li Class="BetterRimworlds.UpliftedAnimals.ALZ112GoToBed" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <ThinkTreeDef>
+    <defName>BRW_ALZ112GoToBed_Humanlike</defName>
+    <insertTag>Humanlike_PreMain</insertTag>
+    <insertPriority>200</insertPriority>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>RestingForMedicalReasons</tagToGive>
+          <subNodes>
+            <li Class="BetterRimworlds.UpliftedAnimals.ALZ112GoToBed" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+</Defs>

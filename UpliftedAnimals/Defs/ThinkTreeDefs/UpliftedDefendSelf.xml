@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Colony Uplifted_* animals. Vanilla home-map Animal AI idles
+       (Wander) instead of fighting or fleeing. Runs before HuntWhenStarving. -->
+  <ThinkTreeDef>
+    <defName>BRW_UpliftedDefendSelf</defName>
+    <insertTag>Animal_PreMain</insertTag>
+    <insertPriority>100</insertPriority>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Misc</tagToGive>
+          <subNodes>
+            <li Class="BetterRimworlds.UpliftedAnimals.UpliftedDefendSelf" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+</Defs>

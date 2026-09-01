@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of Uplifted Animals, a Better Rimworlds Project.
  *
  * Copyright © 2024 Theodore R. Smith
@@ -16,15 +16,13 @@ using Verse;
 namespace BetterRimworlds.UpliftedAnimals
 {
     [DefOf]
-    public class BRW_HediffDefOf
+    public class BRW_JobDefOf
     {
-        // Assigned by DefOfHelper after defs load, not by the constructor.
-        public static HediffDef ALZ112Exposure = null!;
-        public static HediffDef ALZ112Uplifted = null!;
+        public static JobDef BRW_UpliftedTarget = null!;
 
-        static BRW_HediffDefOf()
+        static BRW_JobDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(BRW_HediffDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(BRW_JobDefOf));
         }
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <BRW_AttackTarget>Attack target</BRW_AttackTarget>
+  <BRW_AttackTargetDesc>Send this animal at one pawn its master can see. The fight stops when the target is downed.</BRW_AttackTargetDesc>
+  <BRW_AttackTargetMaster>Attack target</BRW_AttackTargetMaster>
+  <BRW_AttackTargetMasterDesc>Point trained animals at one pawn you can see. They stop when that pawn is downed.</BRW_AttackTargetMasterDesc>
+  <BRW_AttackTargetCancel>Stop attack</BRW_AttackTargetCancel>
+  <BRW_AttackTargetCancelDesc>Call the animal off this target.</BRW_AttackTargetCancelDesc>
+  <BRW_AttackTargetNotVisible>The master cannot see that pawn, or it is too far to point at.</BRW_AttackTargetNotVisible>
+  <BRW_AttackTargetNeedsMaster>Assign a master first.</BRW_AttackTargetNeedsMaster>
+  <BRW_AttackTargetMasterAway>The master is not on this map.</BRW_AttackTargetMasterAway>
+
+  <BRW_AttackAnimals>Attack animals</BRW_AttackAnimals>
+  <BRW_AttackAnimalsDesc>Colony animals that can take the Attack order, sorted by melee DPS.</BRW_AttackAnimalsDesc>
+  <BRW_AttackAnimalsNone>No attack animals on this map.</BRW_AttackAnimalsNone>
+  <BRW_AttackAnimalsSelectAll>Select all</BRW_AttackAnimalsSelectAll>
+  <BRW_AttackAnimalsDps>DPS {0}</BRW_AttackAnimalsDps>
+  <BRW_AttackAnimalsDowned>Downed</BRW_AttackAnimalsDowned>
+
+</LanguageData>

@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Check if inotifywait is installed
-if [ -z "$(which inotifywait)" ]; then
-    echo "inotifywait not installed."
-    echo "Install the inotify-tools package and try again."
-    exit 1
-fi
-
 # Directory to monitor for changes
 dir="./Source"
 MOD=$(basename $PWD)
@@ -44,12 +37,26 @@ function build() {
     rm -rf /rimworld/1.2/Mods/${MOD}
 
     # Loop through each configuration and build it
+    local pids=()
     for config in "${configurations[@]}"; do
         echo "Building for configuration: $config"
         dotnet build --no-restore "$solutionPath" --configuration "Release $config" &
+        pids+=($!)
     done
 
-    wait  # Blocks until all background jobs finish
+    # Wait for each build individually so failures propagate.
+    local failed=0
+    for pid in "${pids[@]}"; do
+        if ! wait "$pid"; then
+            echo "Build failed for a configuration (pid $pid)." >&2
+            failed=1
+        fi
+    done
+
+    if [ "$failed" -ne 0 ]; then
+        echo "Aborting sync: one or more configurations failed to build." >&2
+        exit 1
+    fi
 
     sync_mod
 

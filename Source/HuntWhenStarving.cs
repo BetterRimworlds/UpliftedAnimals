@@ -25,6 +25,15 @@ namespace BetterRimworlds.UpliftedAnimals
     {
         public const string UpliftedWargDefName = "Uplifted_Warg";
 
+        // Re-run the whole-map prey scan at most this often. The scan costs a
+        // pathfinding reachability check per spawned pawn, so we must not do it
+        // on every think tick on crowded maps.
+        private const int SearchIntervalTicks = 60;
+
+        // Cached result of the last prey scan, reused while it stays valid.
+        private Pawn cachedPrey;
+        private int nextPreySearchTick;
+
         // < 0 means use the race's FoodLevelPercentageWantEat.
         public float maxFoodLevelPercentage = -1f;
 
@@ -32,6 +41,10 @@ namespace BetterRimworlds.UpliftedAnimals
         {
             HuntWhenStarving copy = (HuntWhenStarving)base.DeepCopy(resolve);
             copy.maxFoodLevelPercentage = this.maxFoodLevelPercentage;
+            // base.DeepCopy is a MemberwiseClone; never share scan results or
+            // cooldowns with the copy (each pawn gets its own fresh caches).
+            copy.cachedPrey = null;
+            copy.nextPreySearchTick = 0;
             return copy;
         }
 
@@ -143,6 +156,23 @@ namespace BetterRimworlds.UpliftedAnimals
 
         private Pawn FindPrey(Pawn hunter)
         {
+            if (Find.TickManager.TicksGame < this.nextPreySearchTick)
+            {
+                // Within the cooldown: reuse the previous result while the prey
+                // is still a valid, reachable target instead of re-scanning the
+                // whole map.
+                if (this.cachedPrey != null && this.cachedPrey.Spawned
+                    && this.cachedPrey.Map == hunter.Map && IsValidPrey(hunter, this.cachedPrey))
+                {
+                    return this.cachedPrey;
+                }
+
+                // The cached target is gone; drop the cooldown so the next
+                // think tick rescans instead of refusing to hunt.
+                this.nextPreySearchTick = 0;
+                return null;
+            }
+
             Pawn best = null;
             float bestScore = float.MinValue;
 
@@ -161,6 +191,8 @@ namespace BetterRimworlds.UpliftedAnimals
                 }
             }
 
+            this.cachedPrey = best;
+            this.nextPreySearchTick = Find.TickManager.TicksGame + SearchIntervalTicks;
             return best;
         }
 

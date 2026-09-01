@@ -199,7 +199,13 @@ namespace BetterRimworlds.UpliftedAnimals
             List<Pawn> selected = Find.Selector.SelectedPawns;
             for (int i = 0; i < selected.Count; i++)
             {
-                OrderTarget(selected[i], prey);
+                Pawn hunter = selected[i];
+                if (!DirectedAttack.Has(hunter))
+                {
+                    continue;
+                }
+
+                OrderTarget(hunter, prey);
             }
         }
 
